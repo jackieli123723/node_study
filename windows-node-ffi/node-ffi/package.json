@@ -1,0 +1,52 @@
+{
+  "name": "node-ffi",
+  "version": "0.5.5",
+  "author": {
+    "name": "Rick Branson"
+  },
+  "contributors": [
+    {
+      "name": "Nathan Rajlich",
+      "email": "nathan@tootallnate.net",
+      "url": "http://tootallnate.net"
+    }
+  ],
+  "description": "A foreign function interface (FFI) for Node.js",
+  "homepage": "http://github.com/rbranson/node-ffi",
+  "engines": {
+    "node": ">=0.6.0"
+  },
+  "main": "./lib/ffi",
+  "dependencies": {
+    "bindings": "*"
+  },
+  "devDependencies": {
+    "expect.js": "*",
+    "mocha": ">= 0.10.x"
+  },
+  "scripts": {
+    "test": "mocha -gc --reporter spec",
+    "install": "node-gyp rebuild"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/rbranson/node-ffi.git"
+  },
+  "bugs": {
+    "url": "http://github.com/rbranson/node-ffi/issues"
+  },
+  "_npmUser": {
+    "name": "cwchiu",
+    "email": "sisimi.pchome@gmail.com"
+  },
+  "_id": "node-ffi@0.5.5",
+  "optionalDependencies": {},
+  "_engineSupported": true,
+  "_npmVersion": "1.1.19",
+  "_nodeVersion": "v0.6.18",
+  "_defaultsLoaded": true,
+  "dist": {
+    "shasum": "4f68a3f7f9c534b065da800953ed41865756e88a"
+  },
+  "_from": "node-ffi"
+}
