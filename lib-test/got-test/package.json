@@ -1,0 +1,15 @@
+{
+  "name": "got-test",
+  "version": "0.1.0",
+  "author": {
+    "name": "Chui-Wen Chiu"
+  },
+  "description": "got library test",
+  "engines": {
+    "node": ">=6.0.0"
+  },
+  "dependencies": {
+    "got": "6.3.0"
+  },
+  "main"    : "test.js"
+}
