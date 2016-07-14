@@ -1,0 +1,15 @@
+{
+  "name": "loki-test",
+  "version": "0.1.0",
+  "author": {
+    "name": "Chui-Wen Chiu"
+  },
+  "description": "loki library test",
+  "engines": {
+    "node": ">=6.0.0"
+  },
+  "dependencies": {
+    "lokijs": "^1.4.1"
+  },
+  "main": "test.js"
+}
