@@ -1,0 +1,15 @@
+{
+  "name": "aes-test",
+  "version": "0.1.0",
+  "author": {
+    "name": "Chui-Wen Chiu"
+  },
+  "description": "aes library test",
+  "engines": {
+    "node": ">=6.0.0"
+  },
+  "dependencies": {
+    "mcrypt": "^0.1.11"
+  },
+  "main": "test.js"
+}
