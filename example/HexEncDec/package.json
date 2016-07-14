@@ -1,0 +1,14 @@
+{
+  "name": "HexEncDec",
+  "version": "0.1.0",
+  "author": {
+    "name": "Chui-Wen Chiu"
+  },
+  "description": "hex encode/decode test",
+  "engines": {
+    "node": ">=6.2.1"
+  },
+  "dependencies": {
+  },
+  "main": "main.js"
+}
