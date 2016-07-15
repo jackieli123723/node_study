@@ -1,0 +1,16 @@
+{
+  "name": "nodemailer-test",
+  "version": "0.1.0",
+  "author": {
+    "name": "Chui-Wen Chiu"
+  },
+  "description": "nodemailer test",
+  "engines": {
+    "node": ">=6.2.1"
+  },
+  "dependencies": {
+    "extend": "^3.0.0",
+    "nodemailer": "^2.5.0"
+  },
+  "main": "main.js"
+}
