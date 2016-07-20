@@ -1,0 +1,16 @@
+{
+  "name": "mongo-test",
+  "version": "0.1.0",
+  "author": {
+    "name": "Chui-Wen Chiu"
+  },
+  "description": "mongo library test",
+  "engines": {
+    "node": ">=6.0.0"
+  },
+  "dependencies": {
+    "co": "^4.6.0",
+    "co-mongodb": "^0.1.0"
+  },
+  "main": "test.js"
+}
