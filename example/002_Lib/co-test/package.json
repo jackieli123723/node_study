@@ -1,0 +1,17 @@
+{
+  "name": "co-test",
+  "version": "0.1.0",
+  "author": {
+    "name": "Chui-Wen Chiu"
+  },
+  "description": "co library test",
+  "engines": {
+    "node": ">=6.0.0"
+  },
+  "dependencies": {
+    "co": "^4.6.0",
+    "mysql-co": "0.0.4",
+    "thunkify": "^2.1.2"
+  },
+  "main": "test.js"
+}
