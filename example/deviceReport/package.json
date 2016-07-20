@@ -1,0 +1,15 @@
+{
+  "name": "device report for cloudam",
+  "version": "0.1.0",
+  "author": {
+    "name": "Chui-Wen Chiu"
+  },
+  "description": "test",
+  "engines": {
+    "node": ">=6.0.0"
+  },
+  "dependencies": {
+    "request": "2.37.0"
+  },
+  "main": "index.js"
+}
