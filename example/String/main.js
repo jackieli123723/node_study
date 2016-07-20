@@ -1,3 +1,4 @@
+
 String.prototype.padLeft = function(width, z) {
   return this.pad(width, z, 'left');
 };
@@ -24,6 +25,10 @@ String.prototype.trim = function () {
     return this.replace(/^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g, '');
 };
 
-console.log('123'.padLeft(10, '0'));
-console.log('123'.padRight(10, '0'));
-console.log('  123  '.trim());
+function main(){
+    console.log('123'.padLeft(10, '0'));
+    console.log('123'.padRight(10, '0'));
+    console.log('  123  '.trim());
+}
+    
+main();
