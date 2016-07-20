@@ -9,7 +9,9 @@
     "node": ">=6.0.0"
   },
   "dependencies": {
+    "co": "^4.6.0",
+    "co-nedb": "^2.0.1",
     "nedb": "1.8.0"
   },
-  "main"    : "test.js"
+  "main": "test.js"
 }
