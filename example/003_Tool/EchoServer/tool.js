@@ -1,46 +1,22 @@
 /*
+回應服務 (Echo)
 
+網路埠號
+Port 7
+主要特性
+用戶端透過 Socket 傳送任何字串到該服務，該服務會立刻回應與用戶端輸入字串一模一樣的內容到用戶端
+斷線時機
+用戶端主動發出斷線要求
+適用情境
+可用來測試網路是否正常連線，也可用來監控網路是否斷線。
+開發 Socket 應用程式時，可用來測試用戶端與伺服器端彼此互動的情況
 */
-let net = require('net'),
-    client = [];
-
-Array.remove = function(arr, el) {
-    for(var i=arr.length-1;i>=0;--i){
-        if(arr[i] == el){
-            arr.splice(i, 1);
-        }
-    }
-    return true;
-};
-
+var net = require('net'); 
 net.createServer(function(socket) { 
-    client.push(socket);
-    socket.on('end', function(){
-        console.log('end event');
-    });    
-    socket.on('timeout', function(){
-        console.log('timeout event');
-    });
-    socket.on('error', function(){
-        console.log('error event');
-    });      
-    socket.on('close', function(){
-        console.log('close event');
-        Array.remove(client, socket);
-    });
     socket.on('data', function(buffer) { 
-        console.log('recv: ' + buffer);
-        for(var i=0,c=client.length;i<c;++i){
-            if(client[i] == socket){
-                try{
-                    client[i].write(buffer);
-                }catch(ex){
-                    console.log(eX);
-                }
-            }
-        }
+        socket.write(buffer);
     });
-    console.log('Total Client: ' + client.length);
+    
 }).listen(7);
 
 
