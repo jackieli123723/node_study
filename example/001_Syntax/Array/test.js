@@ -22,9 +22,26 @@ function inArray(value, array, fromIndex) {
     return -1;
 }
 
+/**
+ * 
+ *
+ */
+Array.remove = function(arr, el) {
+    for(var i=arr.length-1;i>=0;--i){
+        if(arr[i] == el){
+            arr.splice(i, 1);
+        }
+    }
+    return true;
+};
+
 function main(){
     console.log( inArray(3, [1,2,3])); // 2
     console.log( inArray(99, [1,2,3])); // -1
+    
+    let arr = [1,2,3,3];
+    Array.remove( arr, 3 );
+    console.log( arr );
 }
     
 main();
