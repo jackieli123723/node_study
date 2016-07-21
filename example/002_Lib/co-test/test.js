@@ -37,17 +37,6 @@ function test_co(){
     }
 }
     
-function test_mysql(){    
-    let mysql = require('mysql-co');
-    co(function *() {
-      var db = mysql.createConnection({host:'127.0.0.1' , user: 'root', database: 'test', password: ''});
-      console.log( yield db.query("select 1+1 as qqq") );
-      console.log( yield db.query("select 1+2 as qqq") );
-      console.log( yield db.query("select 1+3 as qqq") );
-      db.end();
-    });
-}
-    
 function test_wrap_async_func(){
     function read(file) {
       return function(fn){
@@ -74,7 +63,6 @@ function test_thunkify(){
 
 function main(){
     test_co();
-    test_mysql();
     test_wrap_async_func();
     test_thunkify();
 }

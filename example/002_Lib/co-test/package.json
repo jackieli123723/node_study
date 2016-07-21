@@ -10,7 +10,6 @@
   },
   "dependencies": {
     "co": "^4.6.0",
-    "mysql-co": "0.0.4",
     "thunkify": "^2.1.2"
   },
   "main": "test.js"
