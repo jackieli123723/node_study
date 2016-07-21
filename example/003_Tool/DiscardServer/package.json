@@ -1,0 +1,10 @@
+{
+  "name": "discard-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "tool.js",
+  "scripts": {
+  },
+  "author": "Chui-Wen Chiu",
+  "license": "ISC"
+}
