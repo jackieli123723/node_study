@@ -1,7 +1,12 @@
 
-# NAN
+# NAN(Native Abstractions for Node.js)
 * [nodejs/nan: Native Abstractions for Node.js](https://github.com/nodejs/nan)
-* [NAN¡GNode.js »P io.js ªº Native Addon ¶}µo§Q¾¹ ~ Fred's blog](http://fred-zone.blogspot.tw/2015/03/nannodejs-iojs-native-addon.html)
+* [NANï¼šNode.js èˆ‡ io.js çš„ Native Addon é–‹ç™¼åˆ©å™¨ ~ Fred's blog](http://fred-zone.blogspot.tw/2015/03/nannodejs-iojs-native-addon.html)
+* binding.gyp
+
+'include_dirs': [
+    "<!(node -e \"require('nan')\")"
+]
 
 # v8
 * [V8: v8::Value Class Reference](http://bespin.cz/~ondras/html/classv8_1_1Value.html)

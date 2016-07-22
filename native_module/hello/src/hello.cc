@@ -13,12 +13,15 @@ void getNumber(const Nan::FunctionCallbackInfo<v8::Value>& info) {
 void getUndefined(const Nan::FunctionCallbackInfo<v8::Value>& info) {
   info.GetReturnValue().Set(Nan::Undefined());
 }
+
 void getNull(const Nan::FunctionCallbackInfo<v8::Value>& info) {
   info.GetReturnValue().Set(Nan::Null());
 }
+
 void getTrue(const Nan::FunctionCallbackInfo<v8::Value>& info) {
   info.GetReturnValue().Set(Nan::True());
 }
+
 void getFalse(const Nan::FunctionCallbackInfo<v8::Value>& info) {
   info.GetReturnValue().Set(Nan::False());
 }
@@ -42,8 +45,13 @@ void not(const Nan::FunctionCallbackInfo<v8::Value>& info) {
 }
 
 void pow2(const Nan::FunctionCallbackInfo<v8::Value>& info) {
-  double a = info[0]->NumberValue  ();
-  info.GetReturnValue().Set(Nan::New(a*a));
+    double a = info[0]->NumberValue();
+    info.GetReturnValue().Set(Nan::New(a*a));
+}
+
+
+NAN_METHOD(Hello) {
+    info.GetReturnValue().Set(Nan::New(99));
 }
 
 void Init(v8::Local<v8::Object> exports) {
@@ -86,6 +94,10 @@ void Init(v8::Local<v8::Object> exports) {
     exports->Set(
         Nan::New("pow2").ToLocalChecked(),
         Nan::New<v8::FunctionTemplate>(pow2)->GetFunction()
+    );
+    exports->Set(
+        Nan::New("Hello").ToLocalChecked(),
+        Nan::New<v8::FunctionTemplate>(Hello)->GetFunction()
     );
 }
 

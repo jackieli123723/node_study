@@ -15,3 +15,4 @@ try{
 console.log( addon.addTwo(3,4) );
 console.log( addon.not(true) );
 console.log( addon.pow2(1.7) );
+console.log( addon.Hello() );
