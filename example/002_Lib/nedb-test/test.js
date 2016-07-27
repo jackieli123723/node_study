@@ -16,7 +16,7 @@ function test_nedb(){
         d:4.18,
         e: {a1:'xxxx', b2:'yyyyy'}
     }, function (err, newDoc) {   // Callback is optional
-      // newDoc is the newly inserted document, including its _id
+    // newDoc is the newly inserted document, including its _id
       // newDoc has no key called notToBeSaved since its value was undefined
       console.log([err, newDoc]);
     });
@@ -54,8 +54,36 @@ function test_co_nedb(){
 
 function main(){
     
-    test_nedb();
-    test_co_nedb();
+    // test_nedb();
+    // test_co_nedb();
+    /*
+    for(var i =0; i<500000; ++i){
+        db.insert({
+            a:i,
+            b:'s',
+            c:new Date(),
+            d:4.18,
+            e: {a1:'xxxx', b2:'yyyyy'}
+        });
+    }
+    */
+    
+    var users = wrap(db);
+    setInterval(function(){
+        co(function*(){
+            var key = parseInt(Math.random()*100000);
+            console.log('search ' + key);
+            var begin = (new Date()).getTime();
+            var res = yield users.findOne({ a: key });
+            var end = (new Date()).getTime()-begin;
+            console.log(res);
+            console.log('spend: ' + end);
+        }).catch(function(err){
+            console.log(err);
+        });
+        console.log('idle wait');
+    }, 1000);
+    
 }
     
 main();
