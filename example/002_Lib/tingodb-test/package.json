@@ -1,0 +1,17 @@
+{
+  "name": "tingo-test",
+  "version": "0.1.0",
+  "author": {
+    "name": "Chui-Wen Chiu"
+  },
+  "description": "tingo library test",
+  "engines": {
+    "node": ">=6.0.0"
+  },
+  "dependencies": {
+    "co": "^4.6.0",
+    "thunkify": "^2.1.2",
+    "tingodb": "^0.4.2"
+  },
+  "main": "test.js"
+}
