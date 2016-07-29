@@ -1,0 +1,16 @@
+{
+  "name": "nedb-test",
+  "version": "0.1.0",
+  "author": {
+    "name": "Chui-Wen Chiu"
+  },
+  "description": "nodb library test",
+  "engines": {
+    "node": ">=6.0.0"
+  },
+  "dependencies": {
+    "co": "^4.6.0",
+    "sqlite3": "^3.1.4"
+  },
+  "main": "test.js"
+}
