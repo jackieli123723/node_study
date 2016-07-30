@@ -1,0 +1,15 @@
+{
+  "name": "udp-chat",
+  "version": "1.0.0",
+  "description": "* [[Nodejs]�챴nodejs�ǲߵ��O- �p���ϥ�nodejs�f��²�檺UDP���ѥ\\�� - FRED?DON���ӤH���� - �}����������](http://my.oschina.net/freddon/blog/518328)",
+  "main": "UDPChatClient.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "Chui-Wen Chiu",
+  "license": "ISC",
+  "dependencies": {
+    "command-line-args": "^3.0.0"
+  }
+}
