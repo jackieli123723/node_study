@@ -22,33 +22,14 @@
 ![](http://greengerong.github.io/images/blog_img/promises-%E6%B5%81%E7%A8%8B%E5%9B%BE.png)
 
 
-## Promise
-
-
-
-How to Run a Promise Waterfall
-https://quickleft.com/blog/defusing-race-conditions-when-using-promises/?utm_source=javascriptweekly&utm_medium=email
-Defusing Race Conditions when Using Promises
-https://davidwalsh.name/javascript-loader
-Create a Basic Loader with JavaScript Promises
-https://github.com/wbinnssmith/awesome-promises?utm_source=javascriptweekly&utm_medium=email
-wbinnssmith/awesome-promises
-http://www.sitepoint.com/preloading-images-in-parallel-with-promises/
-Preloading Images in Parallel with Promises
-http://blogs.msdn.com/b/kingcean/archive/2016/03/25/promise-in-web.aspx
-JavaScript Promise
-https://dzone.com/articles/javascript-how-to-define-process-a-promise-object?utm_medium=feed&utm_source=feedpress.me&utm_campaign=Feed%3A+dzone
-JavaScript: How to Define and Process a Promise Object
-http://www.codeproject.com/Articles/1079322/Learn-ES-Promises-by-Examples
-
-### 方法
+# Promise 方法
 * promise.all()可以等到所有promise都完成之後才運行
 * promise.race()會在多個promise間製造一種競爭關係，當其中一個完成時，其它promise則被拒絕
 
 # 工具
 * [Promisees ‧ Courtesy of ponyfoo.com](http://bevacqua.github.io/promisees/)
 
-#
+# 參考資料
 * [Promise的前世今生和妙用技巧 - 破狼 - 博客園](http://www.cnblogs.com/whitewolf/p/promise-best-practice.html)
 * [Promise - JavaScript | MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise)
 * [JavaScript Promise迷你書（中文版）](http://liubin.org/promises-book/)
@@ -58,3 +39,6 @@ http://www.codeproject.com/Articles/1079322/Learn-ES-Promises-by-Examples
 * [JavaScript ES6 中的Promise - sunshinewyf的個人頁面 - 開源中國社區](http://my.oschina.net/sunshinewyf/blog/649557?fromerr=hlSRSyMt)
 * [JavaScript Promises: There and back again - HTML5 Rocks](http://www.html5rocks.com/zh/tutorials/es6/promises/)
 * [We have a problem with promises](https://pouchdb.com/2015/05/18/we-have-a-problem-with-promises.html)
+* [ES6 Promises in Depth](https://ponyfoo.com/articles/es6-promises-in-depth)
+* [Preloading Images in Parallel with Promises](https://www.sitepoint.com/preloading-images-in-parallel-with-promises/)
+* [GitHub - wbinnssmith/awesome-promises: A curated list of useful resources for JavaScript Promises](https://github.com/wbinnssmith/awesome-promises?utm_source=javascriptweekly&utm_medium=email)
