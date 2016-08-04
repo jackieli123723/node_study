@@ -1,3 +1,5 @@
+// [Array - JavaScript | MDN](https://developer.mozilla.org/zh-TW/docs/Web/JavaScript/Reference/Global_Objects/Array)
+
 /**
 */
 function inArray(value, array, fromIndex) {
@@ -54,7 +56,7 @@ function test_array_find(){
 }
 
 function test_array_lastIndexOf(){
-    // 從後面往前找第一個符合元素的索引
+    // es5: 從後面往前找第一個符合元素的索引
     // http://www.w3schools.com/jsref/jsref_lastindexof_array.asp
     console.log('== lastIndexOf(item,start) ==');
     console.log('[1,2,3,4,5,6].lastIndexOf(2)='+[1,2,3,4,5,6].lastIndexOf(2));
@@ -64,7 +66,7 @@ function test_array_lastIndexOf(){
 }
 
 function test_array_indexOf(){
-    // 從前面往後找第一個符合元素的索引
+    // es5: 從前面往後找第一個符合元素的索引
     // http://www.w3schools.com/jsref/jsref_indexof_array.asp
     console.log('== indexOf(item,start) ==');
     console.log('[1,2,3,4,5,6].indexOf(2)='+[1,2,3,4,5,6].indexOf(2));
@@ -155,7 +157,7 @@ a=${JSON.stringify(a)}`);
 }
 
 function test_array_map(){
-    // 每個元素套用指定函數
+    // es5: 每個元素套用指定函數
     // http://www.w3schools.com/jsref/jsref_map.asp
     console.log('== map(function(currentValue,index,arr), thisValue) ==');
     console.log('[1,2,3].map((v,idx,arr)=>{return v*2;})='+JSON.stringify([1,2,3].map((v,idx,arr)=>{return v*2;})));
@@ -163,7 +165,7 @@ function test_array_map(){
 }
 
 function test_array_reduce(){
-    // 合併陣列成單一值
+    // es5: 合併陣列成單一值
     // http://www.w3schools.com/jsref/jsref_reduce.asp
     console.log('== reduce(function(total,currentValue,currentIndex,arr),initialValue) ==');
     console.log('[1,2,3].reduce((t,v)=>{return t+v;}, 100)='+
@@ -173,7 +175,7 @@ function test_array_reduce(){
 }
 
 function test_array_reduceRight(){
-    // 從後面合併陣列成單一值
+    // es5: 從後面合併陣列成單一值
     // http://www.w3schools.com/jsref/jsref_reduceright.asp
     console.log('== reduceRight(function(total,currentValue,currentIndex,arr),initialValue) ==');
     console.log('[1,2,3].reduceRight((t,v)=>{return t+v;}, 100)='+
@@ -223,7 +225,7 @@ a=${JSON.stringify(a)}`);
 }
 
 function test_array_filter(){
-    // 回傳符合指定函數的陣列元素
+    // es5: 回傳符合指定函數的陣列元素
     // http://www.w3schools.com/jsref/jsref_join.asp
     console.log('== filter(function(currentValue,index,arr), thisValue) ==');
     console.log(`[1,2,3,4].filter((v,idx,arr)=>{return v%2==0;})=`+
@@ -232,7 +234,7 @@ function test_array_filter(){
 }
 
 function test_array_every(){
-    // 檢查每個元素是否全部符合規則
+    // es5: 檢查每個元素是否全部符合規則
     // http://www.w3schools.com/jsref/jsref_every.asp
     console.log('== every(function(currentValue,index,arr), thisValue) ==');
     console.log(`[1,2,3,4].every((v,idx,arr)=>{return v<10;})=`+
@@ -242,7 +244,7 @@ function test_array_every(){
 }
 
 function test_array_some(){
-    // 檢查是否有符合規則的元素
+    // es5: 檢查是否有符合規則的元素
     // http://www.w3schools.com/jsref/jsref_some.asp
     console.log('== some(function(currentValue,index,arr), thisValue) ==');
     console.log(`[1,2,3,4].some((v,idx,arr)=>{return v<0;})=`+
@@ -307,7 +309,8 @@ function test_array_concat(){
 }
 
 function test_array_splice(){
-    //
+    // [javascript - How to insert an item into an array at a specific index? - Stack Overflow](http://stackoverflow.com/questions/586182/how-to-insert-an-item-into-an-array-at-a-specific-index)
+    // [Array.prototype.splice() - JavaScript | MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/splice)
     // http://www.w3schools.com/jsref/jsref_splice.asp
     console.log('== splice(index,howmany,item1,.....,itemX) ==');
     let a = ["Banana", "Orange", "Apple", "Mango"];
@@ -330,6 +333,19 @@ function test_array_splice(){
     let c = ["Banana", "Orange", "Apple", "Mango"];
     c.splice(2, 2, "Lemon", "Kiwi");
     c=${JSON.stringify(c)}`);
+}
+
+function typed_array(){
+    // [Typed Arrays in ECMAScript 6](http://www.2ality.com/2015/09/typed-arrays.html)
+    console.log('== Typed Array ==');
+    let typedArray = new Uint8Array([0,1,2]);
+    console.log(typedArray.length); // 3
+    typedArray[0] = 5;
+    let normalArray = [...typedArray]; // [5,1,2]
+    // The elements are stored in typedArray.buffer.
+    // Get a different view on the same data:
+    let dataView = new DataView(typedArray.buffer);
+    console.log(dataView.getUint8(0)); // 5
 }
 
 function main(){
@@ -370,6 +386,9 @@ function main(){
 
     test_array_join();
     test_array_isarray();
+    
+    typed_array();
 }
 
 main();
+
