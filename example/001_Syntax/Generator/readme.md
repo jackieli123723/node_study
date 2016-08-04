@@ -27,5 +27,6 @@
 * [ES6 Generators and asynchronous javascript](https://alexperry.io/javascript/2015/09/17/es6-generators-and-asynchronous-javascript.html?utm_source=javascriptweekly&utm_medium=email)
 * [function* - JavaScript | MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function%2a)
 * [Asynchronous I/O with Generators & Promises](https://ponyfoo.com/articles/asynchronous-i-o-with-generators-and-promises?utm_source=javascriptweekly&utm_medium=email)
-
+* [異步編程之Generator(1)——領略魅力 - Yika丶J - 博客園](http://www.cnblogs.com/YikaJ/p/4481615.html)
+* [深入解析js異步編程利器Generator - 大額_skylar - 博客園](http://www.cnblogs.com/skylar/p/es6-generator-koa-co-nodejs-js.html)
 #
