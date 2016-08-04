@@ -1,0 +1,12 @@
+{
+  "name": "PCode",
+  "version": "0.1.0",
+  "main": "index.js",
+  "dependencies": {
+  },
+  "devDependencies": {
+    "electron-rebuild": "^1.1.5",
+    "bindings": "^1.2.1",
+    "nslog": "^3.0.0"
+  }
+}
