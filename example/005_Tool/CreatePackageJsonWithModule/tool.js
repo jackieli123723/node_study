@@ -30,6 +30,9 @@ function main() {
             let c = yield fs_readFile(fn_package);
             jd = JSON.parse(c);
         }
+        if(!(jd.dependencies)){
+            jd.dependencies = {};
+        }
         let dirs = yield fs_readdir(dir_node_modules);
         for(let dir of dirs){
             if (dir.indexOf(".") !== 0) {
