@@ -8,7 +8,7 @@ module.exports = {
   // 讓打包後生成的文件放在dist文件夾下的build.js文件中
   output: {
     path: path.resolve('./dist'),
-    publicPath: '/dist',    
+    publicPath: 'dist',    
     filename: '[name].[hash].js',
     chunkFilename: '[id].[chunkhash].js'
   },

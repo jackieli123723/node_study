@@ -4,8 +4,14 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "example01": "webpack --config src/example01.config.js",
-    "example02": "webpack --config src/example02.config.js"
+    "example01": "webpack --config src/example01/example01.config.js",
+    "example02": "webpack --config src/example02/example02.config.js",
+    "example03": "webpack --config src/example03/example03.config.js",
+    "example04": "webpack --config src/example04/example04.config.js",
+    "example05": "webpack --config src/example05/example05.config.js",
+    "example06": "webpack --config src/example06/example06.config.js",
+    "example07": "webpack --config src/example07/example07.config.js",
+    "example08": "webpack --config src/example08/example08.config.js"
   },
   "author": "Chui-Wen Chiu",
   "license": "ISC",
