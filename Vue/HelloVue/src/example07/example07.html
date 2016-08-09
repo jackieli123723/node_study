@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="zh">
+	<head>
+		<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, user-scalable=no">
+		<meta charset="utf-8">
+		<title>Component</title>
+	</head>
+	<body>
+        <div>
+            {{msg}}
+        </div>
+        <div>@keyup.13
+            <input @keyup.13="enter_keyup">
+        </div>
+        <div>@keyup.enter
+            <input @keyup.enter="enter_keyup">
+        </div>
+	</body>
+</html>
