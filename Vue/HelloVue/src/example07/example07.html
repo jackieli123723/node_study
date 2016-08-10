@@ -15,5 +15,11 @@
         <div>@keyup.enter
             <input @keyup.enter="enter_keyup">
         </div>
+        <div>@keyup
+            <input @keyup="keyup($event)">
+        </div>
+        <div>@click
+            <input @click="click($event)">
+        </div>
 	</body>
 </html>

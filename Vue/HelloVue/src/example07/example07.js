@@ -8,6 +8,10 @@ let app = new Vue({
 	methods: {
         enter_keyup: ()=>{
             app.msg = 'enter keyup';
+        },
+        keyup: (event)=>{
+            // console.log(event);
+            app.msg = `keyCode=${event.keyCode}`;
         }
     }
 });
