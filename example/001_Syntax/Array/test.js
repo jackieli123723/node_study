@@ -348,6 +348,16 @@ function typed_array(){
     console.log(dataView.getUint8(0)); // 5
 }
 
+function random_array(){
+    console.log('== Random Array ==');
+    let arr = [1,2,3,4,5,6,7,8,9,10];
+    console.log(`before = ${JSON.stringify(arr)}`);
+    let random_arr = arr.sort(() => {
+                return Math.random() - 0.5
+            });
+    console.log(`after = ${JSON.stringify(random_arr)}`);
+}
+
 function main(){
     console.log( inArray(3, [1,2,3])); // 2
     console.log( inArray(99, [1,2,3])); // -1
@@ -388,6 +398,7 @@ function main(){
     test_array_isarray();
     
     typed_array();
+    random_array();
 }
 
 main();
