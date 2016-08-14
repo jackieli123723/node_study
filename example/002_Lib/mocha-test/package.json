@@ -1,0 +1,21 @@
+{
+  "name": "mocha-test",
+  "version": "1.0.0",
+  "description": "* [node.js�ϥ�mocha�۰ʤƴ��յ{�� �@������](http://yijiebuyi.com/blog/45558044cdaab883a1fd424c238198c3.html) * [node.js �U�ϥ�mocha �Ӱ����� test for node.js �@������](http://yijiebuyi.com/blog/4a5b92f153bfc7364d9770eab7f0f162.html)",
+  "main": "index.js",
+  "scripts": {
+    "test": "node_modules/.bin/mocha.cmd",
+    "cover": "node_modules/.bin/istanbul.cmd  cover src/code.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "istanbul": "^0.4.4",
+    "mocha": "^3.0.2",
+    "nyc": "^8.1.0",
+    "rewire": "^2.5.2"
+  },
+  "dependencies": {
+    "should": "^11.0.0"
+  }
+}
