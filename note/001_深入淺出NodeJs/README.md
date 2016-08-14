@@ -8,13 +8,10 @@
 
 ![](http://klcin.tw/wp/lib/wp-content/uploads/sites/6/2015/12/%E6%B7%B1%E5%85%A5%E6%B7%BA%E5%87%BANode.js_.jpg)
 
-# 評價 /5
-
+# 評價 5/5
 
 # 進度
-* 2016-07-21 - 開始
-* 2016-07-22 - Chapter 02
-* 2016-07-26 - Chapter 03, 04
+* 2016-07-21 - 2016-08-15 閱畢
 
 
 # 參考
