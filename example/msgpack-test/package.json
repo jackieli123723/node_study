@@ -1,0 +1,14 @@
+{
+  "name": "msgpack-test",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "main": "node test.js"
+  },
+  "dependencies":{
+    "msgpack":"1.0.2"
+  },
+  "author": "",
+  "license": "ISC"
+}
