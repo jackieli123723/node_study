@@ -7,6 +7,8 @@ function test_mysql(){
       console.log( yield db.query("select 1+1 as qqq") );
       console.log( yield db.query("select 1+2 as qqq") );
       console.log( yield db.query("select 1+3 as qqq") );
+      
+      console.log(yield db.query('select * from test where name =?', ['arick']) );
       db.end();
     }).catch((err) => {
         console.log(err);
