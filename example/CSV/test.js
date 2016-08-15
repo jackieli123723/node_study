@@ -1,5 +1,6 @@
-let fs = require('fs'),
-    readline = require('readline');
+const fs = require('fs'),
+      readline = require('readline'),
+      csv_parser = require('csv-parser');
 // [Parsing a CSV File With JavaScript](http://code.tutsplus.com/tutorials/parsing-a-csv-file-with-javascript--cms-25626)
 function readcsv(fn, callback){
     let fin = fs.createReadStream(fn, {
@@ -16,6 +17,14 @@ function readcsv(fn, callback){
 
 function main(){
     readcsv('MOCK_DATA.csv', console.log)
+    
+    console.log('== csv-parse ==');
+    fs.createReadStream('MOCK_DATA.csv')
+      .pipe( csv_parser() )
+      .on('data', (data)=>{
+          console.log(data);
+      });
+      
 }
     
 main();
