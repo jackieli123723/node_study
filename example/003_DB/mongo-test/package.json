@@ -10,7 +10,8 @@
   },
   "dependencies": {
     "co": "^4.6.0",
-    "co-mongodb": "^0.1.0"
+    "co-mongodb": "^0.1.0",
+    "mongodb": "^2.2.6"
   },
   "main": "test.js"
 }
