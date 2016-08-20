@@ -57,13 +57,26 @@ class DB{
 
 module.exports.DB = DB;
 
+function test_with_pgp(){
+    const pgp = require("pg-promise")(/*options*/);
+    let db = pgp("postgres://cwchiu@localhost/postgres");
+    db.one("SELECT $1 AS value", 123)
+        .then(function (data) {
+            console.log("DATA:", data.value);
+            pgp.end();
+        })
+        .catch(function (error) {
+            console.log("ERROR:", error);
+        });
+}
 
 function main(){
+    test_with_pgp();
+    return;
     let config = {
         user: 'cwchiu'
     };
     let db = new DB(config);
-    
     db.connect()
         .then( () => {
             return db.query('delete from test');
