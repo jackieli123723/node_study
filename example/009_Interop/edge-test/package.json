@@ -1,0 +1,16 @@
+{
+  "name": "edge-test",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "edge": "^5.9.2",
+    "edge-cs": "^1.0.0",
+    "edge-py": "^0.1.0"
+  }
+}
