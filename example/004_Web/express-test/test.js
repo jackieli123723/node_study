@@ -14,6 +14,8 @@ app.use('/public',express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
   extended: true
 }));
+app.use(bodyParser.json({     // to support URL-encoded bodies
+}));
 // 啟用 session
 app.use(session({
     secret: 'ssshhhhh',
@@ -46,8 +48,10 @@ app.get('/p2', (req, res)=>{
     res.send('p2');
 });
 
-app.post('/login', function(req, res) {
+app.post('/rest/*', function(req, res) {
     console.log(req.body);
+    console.log(req.path);
+    console.log(req.url);
     res.send(`
 Content-Type: ${req.headers['content-type']}
 Content-Length: ${req.headers['content-length']}

@@ -1,3 +1,30 @@
+# 中間件middleware
+* 一種特殊的函數，它可以訪問一個http請求週期中的request對象、response對象，以及表示調用棧中的下一個中間件函數的引用
+* 如果當前中間件函數沒有結束HTTP請求，則必須調用 next() 將執行傳遞給下一個中間件函數，否則請求會掛起
+* 使用 app.use() 加載中間件函數，中間件函數加載的順序決定了它的執行順序，即先加載，先執行
+
+function (req, res, next) {
+    next();
+}
+
+## app級中間件  vs router級中間件
+* app級中間件，即將中間件函數綁定到 app 對象
+    * 通過 app.use() 或者 app.METHOD() 方法
+* router級中間件綁定到express.Router() 對象
+    * 通過 router.use() 或者 router.METHOD() 方法
+    
+# class : Request
+* req.get() : 取 header
+* req.body : 取 post body, 需要借助第三方module，如 body-parser 和 multer 
+* req.query : 取查詢參數
+* req.params : 取路徑參數
+
+# class :Response
+* res.status() : 設置狀態碼
+* res.json() : 返回 json 
+* res.send() : 發送HTTP響應信息，參數可以是字符串、數組、Buffer對象等，會根據參數的類型自動設置header的 Content-Type 
+* res.set() : 設置HTTP的header信息
+* res.render() : 使用模板引擎渲染頁面
 
 # 靜態檔案處理
 * [Serving static files in Express](http://expressjs.com/en/starter/static-files.html)
@@ -29,3 +56,4 @@ openssl x509 -req -in config\cert.csr -signkey config\private.key -out config\ce
 
 # 參考資料
 * [Express 4.x - API Reference](http://expressjs.com/en/api.html)
+* [理解Express的middleware](http://my.oschina.net/qiaotoubao/blog/735675)
