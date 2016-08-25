@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "pack": "node_modules\.bin\browserify.cmd index.js -o bundle.js"
+    "pack": "node_modules\\.bin\\browserify.cmd index.js -o bundle.js"
   },
   "author": "Chui-Wen Chiu",
   "license": "ISC",
