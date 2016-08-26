@@ -1,0 +1,14 @@
+{
+  "name": "promise-test",
+  "version": "1.0.0",
+  "description": "* ES6將其寫進了語言標準 * Promise對象有且只有三種狀態 　　1. pending：異步操作未完成 　　2. resolved：異步操作已完成 　　3. rejected：異步操作失敗 * 狀態的變化只有兩種模式，並且一旦狀態改變，就不會再變 　　1. 異步操作從pending到resolved 　　2. 異步操作從pending到rejected * 當傳入匿名函數作為構造函數Promise的參數時，我們在new的時候，匿名函數就已經執行了 * thenable 物件指有定義then方法的物件",
+  "main": "test.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "promisify-node": "^0.4.0"
+  }
+}

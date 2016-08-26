@@ -1,18 +1,20 @@
 
 function example_1(){
     function hello(v){
-        let pms = new Promise((resolve, reject)=>{
+        let tag = 'check-' + v;
+        console.time(tag);
+        console.log(`${tag} >> before new Promise`);
+        return new Promise((resolve, reject)=>{
+            console.log(`${tag} >> new Promise`);
             setTimeout(()=>{
-                if(v % 2 == 0){
+                console.timeEnd(tag);    
+                if(v != 2){
                     resolve('success');;
                 }else{
                     reject('fail');
                 }
             }, 1000);
         });
-        
-        
-        return pms;
     }
 
     hello(1)
@@ -30,6 +32,18 @@ function example_1(){
         .catch( (err) => {
             console.log([2, err]);
         });
+    hello(3)
+        .then( ()=> hello(4) )
+        .then( ()=> hello(5) )
+        .then( ()=> hello(6) )
+        .then( ()=> hello(7) )
+        .then( ()=> hello(8) )
+        .then( ()=> hello(9) )
+        .then( ()=> hello(10) )
+        
+    hello(11);
+    hello(12);
+    hello(13);
 }
 
 function example_2(){
@@ -124,7 +138,7 @@ function example_6_sequential(){
                 console.log('step_1-start' + v);
                 resolve(v+1);
                 console.log('step_1-end');
-            }, 100);
+                }, 100);
         });
     };
     
@@ -339,8 +353,21 @@ function example_13_reject(){
         );
 }
 
+function example_promisify(){
+    const 
+        promisify = require("promisify-node"),
+        fs_p = promisify(require('fs'));
+        
+    fs_p.mkdir('a')
+        .then( ()=> fs_p.stat('a'))
+        .then( console.log)
+        .then( () => fs_p.rmdir('a'))
+        .catch( console.error)
+        
+    
+}
 function main(){
-    // example_1();
+    example_1();
     // example_2();
     // example_3_wall_all();
     // example_4_race();
@@ -349,10 +376,11 @@ function main(){
     // example_6_sequential();
     // example_7_throw_error();
     // example_8_with_request();
-     example_9_reuse();
+    // example_9_reuse();
     // example_10();
     // example_11_timeout();
     // example_12_resolve();
     // example_13_reject();
+    // example_promisify();
 }
 main();

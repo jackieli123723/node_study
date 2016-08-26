@@ -28,6 +28,103 @@
 # 工具
 * [Promisees ‧ Courtesy of ponyfoo.com](http://bevacqua.github.io/promisees/)
 
+# [Common Promise Mistakes - DZone Web Dev](https://dzone.com/articles/common-promise-mistakes)
+## Promise 定義不要使用 try...catch
+* 因為 Promise 會攔截所有的 exception 並轉換成 rejected Promise
+
+## 避免深層嵌套 Promise
+
+```
+// Bad
+authenticateUser('user1').then(function(user){
+    getPosts(user).then(function(posts){
+        showPosts(posts).then(function(){
+            console.log('done!');
+        });
+    });
+});
+
+// Good
+authenticateUser('user1')
+  .then(function(user){
+      return getPosts(user);
+  })
+  .then(function(posts){
+      return showPosts(posts);
+  })
+  .then(function(){
+      console.log('done!');
+  });
+  
+// Better
+authenticateUser('user1')
+  .then(getPosts)
+  .then(showPosts)
+  .then(function(){
+       console.log('done!');
+   });
+```
+
+## 使用 Promise.all 避免 Promise 深度嵌套
+
+```
+// Bad
+getProduct('p1')
+  .then(function(p1){
+    getProduct('p2')
+      .then(function(p2) {
+        getProduct('p3')
+          .then(function(p3) {
+            return compare(p1, p2, p3);
+          });
+      });
+});
+
+// Good
+Promise.all([getProduct('p1'), getProduct('p2'), getProduct('p3')])
+       .then(function(products){
+          return compare(products[0], products[1], products[2]);
+       });
+       
+// Better
+Promise.all([getProduct('p1'), getProduct('p2'), getProduct('p3')])
+       .then(function([p1, p2, p3]){
+          return compare(p1, p2, p3);
+       });
+```
+
+## 忽略非必要的 Promise
+
+```
+// Before
+function doSomething() {
+    return new Promise(function(resolve, reject) {
+        fetchData('resource1')
+          .then(function(resource) {
+             var data = process(resource);
+             resolve(data);
+          })
+          .catch(function(err) {
+              reject(err);
+          });
+    });
+}
+
+// After
+function doSomething() {
+    // then 本身就會返回 Promise 不用建立新的 Promise
+    return fetchData('resource1')
+              .then(function(resource) {
+                  return process(resource);
+              });
+}
+```
+
+## 不要將同步程式建立 Promise, 會變慢
+
+# 相關套件
+* [promisify-node](https://www.npmjs.com/package/promisify-node)
+
 # 參考資料
 * [Promise的前世今生和妙用技巧 - 破狼](http://www.cnblogs.com/whitewolf/p/promise-best-practice.html)
 * [Promise - JavaScript | MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise)
