@@ -1,4 +1,6 @@
-const fs = require('fs');
+const 
+    path = require('path'),
+    fs = require('fs');
 
 let File = {
     read : (fn)=>new Promise((y,n)=>{
@@ -69,14 +71,52 @@ let File = {
         });
         rd.pipe(wr);
 
+    }),
+    count: (target)=>new Promise((y,n)=>{
+        let file_count = 0;
+        let folder_count = 0;
+        
+        fs.readdir(target, (err, files)=>{
+            if(err){
+                n(err);
+                return;
+            }
+            
+            let jobs = [];
+            for(let f of files){
+                jobs.push(new Promise((y,n)=>{
+                    fs.lstat(path.join(target,f), (err, stat)=>{
+                        if(err){
+                            n(err);
+                            return;
+                        }
+                        if(stat.isDirectory()){
+                            ++folder_count;
+                        }else{
+                            ++file_count;
+                        }
+                        y();
+                        // console.log(`${f} folder? ${stat.isDirectory()}`);
+                    });
+                }));
+            }
+            
+            Promise.all( jobs)
+                .then( ()=>{
+                    y({
+                        files: file_count, 
+                        folders: folder_count
+                    });
+                    
+                })
+                .catch(n);
+        });
     })
 };
 
-
-function main(){
+function test_File(){
     let fn = __dirname + '/test.data';
     let new_fn = __dirname + '/test.data.new';
-    
     File.write(fn, 'hello file')
         .then( ()=> {
             console.log('write success');
@@ -109,6 +149,16 @@ function main(){
             console.log(['final', v]);
         })
         .catch( reson => console.log(reson) );
+}
+
+
+
+function main(){
+    // test_File();
+    File.count('d:/tmp')
+        .then( v =>{
+            console.log(`Files: ${v.files}, Foders: ${v.folders}`);
+        })
 }
 module.exports = File;
 
