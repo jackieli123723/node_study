@@ -306,6 +306,10 @@ function test_array_concat(){
         +JSON.stringify([1,2].concat([3,4])));
     console.log(`[1,2].concat([3,4],[5,6])=`
         +JSON.stringify([1,2].concat([3,4],[5,6])));
+        
+    var array1 = [1,2,3];
+    var array2 = [4,5,6];
+    console.log(array1.push.apply(array1, array2)); // [1,2,3,4,5,6];
 }
 
 function test_array_splice(){
