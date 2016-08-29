@@ -12,7 +12,8 @@
     "co": "^4.6.0",
     "co-request": "^1.0.0",
     "extend": "^3.0.0",
-    "request": "^2.74.0"
+    "request": "^2.74.0",
+    "request-promise": "^4.1.1"
   },
   "main": "test.js"
 }

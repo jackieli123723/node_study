@@ -1,5 +1,7 @@
 let request = require('request'),
     fs = require('fs');
+    
+request.debug = true;
 
 // 忽略 HTTPS 證書檢查
 // http://stackoverflow.com/questions/19665863/how-do-i-use-a-self-signed-certificate-for-a-https-node-js-server
@@ -90,12 +92,42 @@ function readLargeText(){
         });
 }
 
+function request_promise(){
+    const rp = require('request-promise');
+    rp({
+        'method' : 'get',
+        'url': 'https://api.ipify.org',
+        'qs': {
+            'format': 'json'
+        },
+        'headers': {
+            'User-Agent': 'Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 10.0; WOW64; Trident/7.0; .NET4.0C; .NET4.0E; .NET CLR 2.0.50727; .NET CLR 3.0.30729; .NET CLR 3.5.30729)'
+        }
+    })
+        .then(body => {
+            console.log(body);
+        })
+        .catch(console.error);
+}
+
+function request_head(){
+    request.head('http://i3.ytimg.com/vi/J---aiyznGQ/mqdefault.jpg', function(err, resp){
+        if(err){
+        }else{
+            console.log(resp.headers);
+        }
+    });
+}
+
 function main(){
     // httpGet();
-    formPost();
+    // formPost();
     // fileDownload();
     // readLargeText();
     // jsonPost();
+    // request_head();
+    
+    request_promise();
 }
 
 main();
