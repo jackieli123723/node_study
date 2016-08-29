@@ -1,0 +1,1 @@
+* [Let¡¦s Learn JavaScript Closures ¡V Free Code Camp](https://medium.freecodecamp.com/lets-learn-javascript-closures-66feb44f6a44#.ho4a5an47)
