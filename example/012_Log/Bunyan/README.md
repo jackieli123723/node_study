@@ -1,0 +1,2 @@
+* [trentm/node-bunyan: a simple and fast JSON logging module for node.js services](https://github.com/trentm/node-bunyan)
+* [streams-introduction](https://github.com/trentm/node-bunyan#streams-introduction)
