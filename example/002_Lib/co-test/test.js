@@ -29,7 +29,7 @@ function test_co(){
     }).catch(onerror);
 
 
-    function onerror(err) {
+function onerror(err) {
       // log any uncaught errors
       // co will not throw any errors you do not handle!!!
       // HANDLE ALL YOUR ERRORS!!!
@@ -61,10 +61,45 @@ function test_thunkify(){
     });
 }
 
+function co_with_array(){
+    co(function* () {
+      var res = yield [
+        Promise.resolve(1),
+        Promise.resolve(20)
+      ];
+      console.log(res); 
+    }).catch((err)=>{
+        console.log(err);
+    });
+}
+
+function co_with_object(){
+    co(function* () {
+      let res = yield {
+            'a1': Promise.resolve(1),
+            'a2': Promise.resolve(20)
+      };
+      console.log(res); 
+    }).catch((err)=>{
+        console.log(err);
+    });
+}
+
 function main(){
     test_co();
-    test_wrap_async_func();
-    test_thunkify();
+    // test_wrap_async_func();
+    // test_thunkify();
+    // co_with_array();
+    // co_with_object();
+    // var fn = co.wrap(function* (val) {
+      // return yield Promise.resolve(val);
+    // });
+
+    // fn(true).then(function (val) {
+        // console.log(val);
+    // });
+    
+
 }
     
 main();
