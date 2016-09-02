@@ -1,0 +1,1 @@
+* [ericelliott/credential: Easy password hashing and verification in Node. Protects against brute force, rainbow tables, and timing attacks.](https://github.com/ericelliott/credential)
