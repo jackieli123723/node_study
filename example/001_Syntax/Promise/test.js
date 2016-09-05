@@ -366,8 +366,60 @@ function example_promisify(){
         
     
 }
+
+function promise_with_yield(){
+
+    function* _(){
+        console.log('#1');
+        let [a,b] = yield( Promise.all([
+            new Promise((y,n)=> setTimeout( ()=> y(300), 3000) ),
+            new Promise((y,n)=> setTimeout( ()=> y(600), 6000) ),
+        ]));
+        console.log('#2');
+        console.log('=>', a,b, '<=');
+    }
+    let g = _()
+    g.next().value
+        .then( v => {
+            // console.log(v);
+            g.next(v); 
+        })
+        .catch(console.error);
+}
+
+function promise_with_yield2(){
+    function create(v){
+        return new Promise( (y,n)=>{
+            console.log(`${v} start`);
+            setTimeout( ()=> {
+                y(v);
+                console.log(`${v} end`);    
+            }, v);
+        });
+    }
+    
+    function* _(){
+        let v1 = yield( create(3000));
+        let v2 = yield(create(1000));
+        let v3 = yield(create(5000));
+        
+        console.log([v1,v2,v3]);
+    }
+    let g = _();
+    
+    function go(result){
+        if(result.done) return;
+        result.value.then(function(r){
+            go(g.next(r));
+        });
+    }
+    
+    go(g.next());
+   
+}
+
 function main(){
-    example_1();
+    // example_1();
     // example_2();
     // example_3_wall_all();
     // example_4_race();
@@ -382,5 +434,7 @@ function main(){
     // example_12_resolve();
     // example_13_reject();
     // example_promisify();
+    // promise_with_yield();
+    // promise_with_yield2();
 }
 main();

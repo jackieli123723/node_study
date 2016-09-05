@@ -139,3 +139,6 @@ function doSomething() {
 * [Preloading Images in Parallel with Promises](https://www.sitepoint.com/preloading-images-in-parallel-with-promises/)
 * [GitHub - wbinnssmith/awesome-promises: A curated list of useful resources for JavaScript Promises](https://github.com/wbinnssmith/awesome-promises?utm_source=javascriptweekly&utm_medium=email)
 * [前言 · 從Promise開始的JavaScript異步生活](https://eyesofkids.gitbooks.io/javascript-start-es6-promise/content/contents/intro.html)
+* [關於Promise：你可能不知道的6件事 ‧ Issue #1 ‧ dwqs/blog](https://github.com/dwqs/blog/issues/1)
+* [[Javascript] Promise, generator, async與ES6 « Huli's Blog](http://huli.logdown.com/posts/292655-javascript-promise-generator-async-es6)
+
