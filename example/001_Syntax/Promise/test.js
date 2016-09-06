@@ -418,6 +418,31 @@ function promise_with_yield2(){
    
 }
 
+function yield_to_array(){
+    function* poem() {
+        yield( Promise.resolve( "Roses are red" ) );
+        yield( Promise.resolve( "Violets are blue" ) );
+        yield( Promise.resolve( "I'm a schizophrenic" ) );
+        yield( Promise.resolve( "And so am I" ) );
+    }
+     
+    // By invoking the generator function, we are given a generator object, which we can
+    // use to iterate through the yield-delimited portions of the generator function body.
+    let iterator = poem();
+    // In this version of the code, the generator function is yielding data that is
+    // asynchronous in nature (Promises). The generator itself is still synchronous; but, we
+    // now have to be more conscious of the type of data that it is yielding. In this demo,
+    // since we're dealing with promises, we have to wait until all the promises have
+    // resolved before we can output the poem.
+    Promise
+        .all( [ ...iterator ] ) // Convert iterator to an array or yielded promises.
+        .then( lines => {
+            for ( let line of lines ) {
+                console.log( line );
+            }
+        });
+}
+
 function main(){
     // example_1();
     // example_2();
@@ -436,5 +461,6 @@ function main(){
     // example_promisify();
     // promise_with_yield();
     // promise_with_yield2();
+    // yield_to_array();
 }
 main();
