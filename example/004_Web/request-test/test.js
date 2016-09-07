@@ -1,7 +1,11 @@
-let request = require('request'),
+const
+    request = require('request'),
+    request_debug = require('request-debug'),
+    progress = require('request-progress'),
     fs = require('fs');
-    
-request.debug = true;
+  
+//request_debug(request);
+//request.debug = true;
 
 // 忽略 HTTPS 證書檢查
 // http://stackoverflow.com/questions/19665863/how-do-i-use-a-self-signed-certificate-for-a-https-node-js-server
@@ -119,6 +123,38 @@ function request_head(){
     });
 }
 
+function downloadProgress(link, fn){
+    return new Promise( (y,n)=>{
+        progress(request(link), {
+                throttle: 2000,                    // Throttle the progress event to 2000ms, defaults to 1000ms 
+                delay: 1000,                       // Only start to emit after 1000ms delay, defaults to 0ms 
+                //lengthHeader: 'x-transfer-length'  // Length header to use, defaults to content-length 
+            })
+            //.on('close', function(){
+            //    y(fn);
+            //})
+            .on('end', function(){
+                y(fn);
+            })
+            .on('progress', function (state) {
+                //console.log('progress', state);
+                let total = '--';
+                let progress = '--';
+                if(state.size.total ){
+                    total = state.size.total;
+                    progress = `${state.percentage * 100}%`;
+                }
+                process.stdout.write(`\r ${progress}(${state.size.transferred}/${total}), ${(state.speed/1024).toFixed(2)}KB/sec           `);
+            })
+            .on('error', function (err) {
+                n(err);
+            })
+            .pipe( fs.createWriteStream(fn) );
+    });
+}
+
+module.exports.downloadProgress =downloadProgress;
+
 function main(){
     // httpGet();
     // formPost();
@@ -127,7 +163,14 @@ function main(){
     // jsonPost();
     // request_head();
     
-    request_promise();
+    // request_promise();
+    let link = 'http://www.sample-videos.com/video/mp4/360/big_buck_bunny_360p_5mb.mp4';
+    let fn = 'big_buck_bunny_360p_5mb.mp4';
+    downloadProgress(link, fn)
+        .then( console.log )
+        .catch(console.error);
 }
 
-main();
+if (require.main === module) {
+    main();
+}

@@ -13,7 +13,11 @@
     "co-request": "^1.0.0",
     "extend": "^3.0.0",
     "request": "^2.74.0",
+    "request-progress": "^2.0.1",
     "request-promise": "^4.1.1"
   },
-  "main": "test.js"
+  "main": "test.js",
+  "devDependencies": {
+    "request-debug": "^0.2.0"
+  }
 }
