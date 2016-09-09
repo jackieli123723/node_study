@@ -27,6 +27,7 @@
 
 # 工具
 * [Promisees ‧ Courtesy of ponyfoo.com](http://bevacqua.github.io/promisees/)
+* [GitHub - timdp/es6-promise-pool: Runs Promises in a pool that limits their concurrency.](https://github.com/timdp/es6-promise-pool)
 
 # [Common Promise Mistakes - DZone Web Dev](https://dzone.com/articles/common-promise-mistakes)
 ## Promise 定義不要使用 try...catch
@@ -141,4 +142,4 @@ function doSomething() {
 * [前言 · 從Promise開始的JavaScript異步生活](https://eyesofkids.gitbooks.io/javascript-start-es6-promise/content/contents/intro.html)
 * [關於Promise：你可能不知道的6件事 ‧ Issue #1 ‧ dwqs/blog](https://github.com/dwqs/blog/issues/1)
 * [[Javascript] Promise, generator, async與ES6 « Huli's Blog](http://huli.logdown.com/posts/292655-javascript-promise-generator-async-es6)
-
+* [GitHub - GianlucaGuarini/allora: Promisify using es6 Proxies every javascript API with less than 50 lines of code](https://github.com/GianlucaGuarini/allora?utm_source=javascriptweekly&utm_medium=email)

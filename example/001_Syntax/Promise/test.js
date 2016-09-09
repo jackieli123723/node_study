@@ -28,7 +28,7 @@ function example_1(){
     hello(2)
         .then( (v) => {
             console.log([2, v]);
-        })
+            })
         .catch( (err) => {
             console.log([2, err]);
         });
@@ -443,6 +443,38 @@ function yield_to_array(){
         });
 }
 
+function promise_pool_test(){
+    const PromisePool = require('es6-promise-pool');
+    let Q=[1,2,3,4,5,6,7,8,9,10];
+    let promiseProducer = function*(){
+        while(Q.length > 0){
+            let v = Q.shift();
+            if(v){
+                yield new Promise( (y,n)=>{
+                    console.log( `${v} Run` );
+                    setTimeout( ()=>{
+                        y();
+                    }, v*1000);
+                });
+            }
+        }
+    }
+    let pool = new PromisePool(promiseProducer, 5)
+    
+    let tid = setInterval( ()=>{
+        Q.push( Math.random()*5);
+        console.log(`${Q.length}`);
+    }, 1000);
+    
+    pool.start()
+        .then( ()=> {
+            clearInterval(tid);
+            console.log('all job finish');
+        })
+        .catch(console.error);
+        
+}
+
 function main(){
     // example_1();
     // example_2();
@@ -462,5 +494,6 @@ function main(){
     // promise_with_yield();
     // promise_with_yield2();
     // yield_to_array();
+    promise_pool_test();
 }
 main();
