@@ -418,6 +418,41 @@ function promise_with_yield2(){
    
 }
 
+function promise_with_yield3(){
+    function create(v){
+        return new Promise( (y,n)=>{
+            console.log(`${v} start`);
+            setTimeout( ()=> {
+                y(v);
+                console.log(`${v} end`);    
+            }, v);
+        });
+    }
+    
+    function createGen(queue=[]){
+        return function* _(){
+            while(queue.length > 0){
+                let job = queue.shift();
+                if(job){
+                    yield create(job);
+                }
+            }
+        }
+    }
+    let _ = createGen([3000, 1000, 5000]);
+    let g = _();
+    
+    function go(result){
+        if(result.done) return;
+        result.value.then(function(r){
+            go(g.next(r));
+        });
+    }
+    
+    go(g.next());
+   
+}
+
 function yield_to_array(){
     function* poem() {
         yield( Promise.resolve( "Roses are red" ) );
@@ -475,6 +510,44 @@ function promise_pool_test(){
         
 }
 
+function recursive_promise(){
+    function _(v, store=[]){
+        return new Promise((y,n)=>{
+            if(v<10){
+                store.push(v);
+                y({value:v, done: false});
+            }else{
+                //n(store); // ¸õÂ÷ÂI
+                y({value:store, done: true});
+            }
+        }).then( v2=>{
+            if(v2.done===true){
+                return v2.value;
+            }
+            return _(v2.value+1, store);
+        });
+    }
+    _(0, [])
+        .then(console.log); // 0-9
+}
+
+function promise_with_loop(){
+    const co = require('co');
+    co(function* (){
+        for(let i=0;i<10; ++i){
+            yield new Promise((y,n)=>{
+                console.log(i);
+
+                let t = Math.random()*10000;
+                console.log(t);
+                setTimeout( ()=> {
+                    y();
+                }, t);
+            });
+        }
+    }).catch(err => console.log(['co error', err]));
+}
+
 function main(){
     // example_1();
     // example_2();
@@ -493,7 +566,11 @@ function main(){
     // example_promisify();
     // promise_with_yield();
     // promise_with_yield2();
+    // promise_with_yield3();
     // yield_to_array();
-    promise_pool_test();
+    // promise_pool_test();
+    // recursive_promise();
+    promise_with_loop();
+    
 }
 main();
