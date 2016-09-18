@@ -1,0 +1,1 @@
+* [verror](https://www.npmjs.com/package/verror)
