@@ -144,5 +144,8 @@ function main(){
     test_with_co();
     test_with_promise();
 }
-    
-main();
+
+module.exports.DB =DB;
+if (require.main === module) {
+    main();
+}
