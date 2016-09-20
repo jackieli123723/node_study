@@ -2,9 +2,11 @@ const
     request = require('request'),
     request_debug = require('request-debug'),
     progress = require('request-progress'),
+    http = require('http'),
+    downloadProgress = require('./index').downloadProgress,
     fs = require('fs');
   
-//request_debug(request);
+  // request_debug(request);
 //request.debug = true;
 
 // 忽略 HTTPS 證書檢查
@@ -123,37 +125,57 @@ function request_head(){
     });
 }
 
-function downloadProgress(link, fn){
-    return new Promise( (y,n)=>{
-        progress(request(link), {
-                throttle: 2000,                    // Throttle the progress event to 2000ms, defaults to 1000ms 
-                delay: 1000,                       // Only start to emit after 1000ms delay, defaults to 0ms 
-                //lengthHeader: 'x-transfer-length'  // Length header to use, defaults to content-length 
-            })
-            //.on('close', function(){
-            //    y(fn);
-            //})
-            .on('end', function(){
-                y(fn);
-            })
-            .on('progress', function (state) {
-                //console.log('progress', state);
-                let total = '--';
-                let progress = '--';
-                if(state.size.total ){
-                    total = state.size.total;
-                    progress = `${state.percentage * 100}%`;
-                }
-                process.stdout.write(`\r ${progress}(${state.size.transferred}/${total}), ${(state.speed/1024).toFixed(2)}KB/sec           `);
-            })
-            .on('error', function (err) {
-                n(err);
-            })
-            .pipe( fs.createWriteStream(fn) );
+
+function test_download_progress(){
+    let link = 'http://www.sample-videos.com/video/mp4/360/big_buck_bunny_360p_5mb.mp4';
+    let fn = 'big_buck_bunny_360p_5mb.mp4';
+    downloadProgress(link, fn)
+        .then( console.log )
+        .catch(console.error);
+}
+
+function request_with_proxy(){
+    let sid = '23344282';
+    let format = '';
+    let proxy_host = '222.161.3.163';
+    let proxy_port = 9797;
+    let proxy = `http://${proxy_host}:${proxy_port}`;
+    let url = `http://music.baidu.com/data/music/fmlink?songIds=${sid}`;
+    request({
+        method: "GET", 
+        headers: {"Cache-Control" : "no-cache"}, 
+        proxy: proxy,
+        url: url
+    }, (err, resp, body)=>{
+        if(err){
+            console.error(err);
+            return;
+        }
+        console.log(body);
+        let jd = JSON.parse(body);
+        for(let song of jd.data.songList){
+            console.log( song.songName);
+            console.log( song.artistId);
+            console.log( song.artistName);
+            console.log( song.albumId);
+            console.log( song.albumName);
+            console.log( song.songPicSmall);
+            console.log( song.songPicBig);
+            console.log( song.lrcLink);
+            console.log( song.songLink);
+            console.log( song.format);
+            console.log( song.rate);
+            console.log( song.size);
+        }
     });
 }
 
-module.exports.downloadProgress =downloadProgress;
+function getResponseHeader(){
+    request('https://www.google.com', (err, resp, body)=>{
+    // console.log(body);
+        console.log(resp.headers);
+    });
+}
 
 function main(){
     // httpGet();
@@ -164,11 +186,10 @@ function main(){
     // request_head();
     
     // request_promise();
-    let link = 'http://www.sample-videos.com/video/mp4/360/big_buck_bunny_360p_5mb.mp4';
-    let fn = 'big_buck_bunny_360p_5mb.mp4';
-    downloadProgress(link, fn)
-        .then( console.log )
-        .catch(console.error);
+    // test_download_progress();
+    // request_with_proxy();
+    getResponseHeader();
+    
 }
 
 if (require.main === module) {
