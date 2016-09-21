@@ -49,3 +49,29 @@ module.exports.pad = function(s, width, z, dir) {
     return s + pad_str;
   }
 };
+
+// https://github.com/wolfhong/xiamiclient/blob/master/xiamiclient/client.py
+module.exports.xiami_decode = function(location){
+    let 
+        rows = parseInt(location[0]),
+        _str = location.slice(1),
+        cols = parseInt(_str.length/rows) + 1,
+        full_row = _str.length % rows,
+        ch,
+        out = "";
+        
+    for(let c=0;c<cols; ++c){
+        for(let r=0;r<rows; ++r){
+            if(c == (cols - 1) && r >= full_row){
+                continue
+            }
+            if( r < full_row){
+                ch = _str[r*cols+c];
+            }else{
+                ch = _str[cols*full_row+(r-full_row)*(cols-1)+c];
+            }
+            out += ch;
+        }
+    }
+    return decodeURIComponent(out).replace(/\^/g, '0');
+};

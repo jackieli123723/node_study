@@ -1,6 +1,7 @@
 const 
     assert = require('assert');
 
+
 describe('index.js test', ()=>{
     const ext = require('./index');
     
@@ -344,5 +345,15 @@ describe('String.prototype', ()=>{
     it('.trim()', ()=>{
         assert.equal( '   foo  '.trim(), 'foo');
         assert.equal( 'foo    '.trim(), 'foo');
+    });
+});
+
+describe('decode location', ()=>{
+    const xiami_decode = require('./index').xiami_decode;
+    it('case 1', ()=>{
+        let data = '9hFlc%12_3F%af915-t%eo26%2_a3c114Ent2.mF751luD5917%upFx%15E%.t232845l%mi23865mh7ef55El35aF597Ep_f98b1-A.m1%%243k6aca3%%fi32244%e5dae252i.5FF293y9cf-%E';
+        let expected = 'http://m5.file.xiami.com/135/135/167589/2067242_2104493_l.mp3?auth_key=27f659ac53e9adcf192f8caf91185bae-1474513200-0-null';
+        let actual = xiami_decode(data);
+        assert.equal(actual, expected);
     });
 });
