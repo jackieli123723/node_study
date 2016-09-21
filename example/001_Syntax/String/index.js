@@ -75,3 +75,7 @@ module.exports.xiami_decode = function(location){
     }
     return decodeURIComponent(out).replace(/\^/g, '0');
 };
+
+module.exports.fixWinFilename = function(fn){
+    return fn.replace(/[\\/:\*\?"<>\|\s]/g, '_');
+};

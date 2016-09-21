@@ -357,3 +357,13 @@ describe('decode location', ()=>{
         assert.equal(actual, expected);
     });
 });
+
+describe('fix windows invalid char', ()=>{
+    const fixWinFilename = require('./index').fixWinFilename;
+   it('case 1', ()=>{
+       let fn = 'a\\/:*?"<> |b.mp3';
+       let expected = 'a__________b.mp3';
+       let actual = fixWinFilename(fn);
+       assert.equal(actual, expected);
+   });
+});
