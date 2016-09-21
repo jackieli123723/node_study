@@ -1,5 +1,6 @@
 const 
     path = require('path'),
+    
     fs = require('fs');
 
 let File = {
@@ -21,15 +22,23 @@ let File = {
             }
         });
     }),
-    exists: (fn)=>new Promise( (y,n) => {
+    exists: (fn)=>{
         // 判斷文件是否存在
-        fs.exists(fn, function( exists ){
-            y( exists );
-        });
-    }),
+        // fs.exists(fn, function( exists ){
+            // y( exists );
+        // });
+        return File.stat(fn)
+                .then( ()=> true)
+                .catch( err =>{
+                    return false;
+                });
+            
+    },
     stat: (fn)=>new Promise( (y,n) => {
         // 查看文件狀態
+        
         fs.stat(fn, function(err, stat){
+            // console.log(stat);
             if(err){
                 n(err);
             }else{
@@ -160,7 +169,7 @@ function main(){
             console.log(`Files: ${v.files}, Foders: ${v.folders}`);
         })
 }
-module.exports = File;
+module.exports.File = File;
 
 if (require.main === module) {
     main();
