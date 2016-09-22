@@ -79,3 +79,15 @@ module.exports.xiami_decode = function(location){
 module.exports.fixWinFilename = function(fn){
     return fn.replace(/[\\/:\*\?"<>\|\s]/g, '_');
 };
+
+// https://www.orztw.com/2014/06/capacity-unit.html
+module.exports.sizeFormat = function (bytes){
+    const KBRule=1024;
+    const j = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB', 'DB', 'NB'];
+    let i = 0;
+    while (bytes>KBRule) {
+        bytes=bytes/KBRule;
+        ++i;
+    } 
+    return `${bytes.toFixed(1)}${j[i]}`;
+};

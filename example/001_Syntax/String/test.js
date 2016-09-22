@@ -367,3 +367,24 @@ describe('fix windows invalid char', ()=>{
        assert.equal(actual, expected);
    });
 });
+describe('sizeFormat', ()=>{
+    const sizeFormat = require('./index').sizeFormat;
+    it('512 Bytes', ()=>{
+       assert.equal(sizeFormat(512), '512.0B');
+    });
+    it('1 KB', ()=>{
+       assert.equal(sizeFormat(1024), '1024.0B');
+    });
+    it('4 KB', ()=>{
+       assert.equal(sizeFormat(4096), '4.0KB');
+    });
+    it('4 MB', ()=>{
+       assert.equal(sizeFormat(4*Math.pow(1024,2)), '4.0MB');
+    });
+    it('4 GB', ()=>{
+       assert.equal(sizeFormat(4*Math.pow(1024,3)), '4.0GB');
+    });
+    it('4 TB', ()=>{
+       assert.equal(sizeFormat(4*Math.pow(1024,4)), '4.0TB');
+    });
+});
