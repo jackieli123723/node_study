@@ -3,3 +3,5 @@
 * [ECMAScript 6: holes in Arrays](http://www.2ality.com/2015/09/holes-arrays-es6.html#array.prototype_methods)
 * [Typed Arrays in ECMAScript 6](http://www.2ality.com/2015/09/typed-arrays.html)
 * [Concatenating Typed Arrays](http://www.2ality.com/2015/10/concatenating-typed-arrays.html)
+* [Array - JavaScript | MDN](https://developer.mozilla.org/zh-TW/docs/Web/JavaScript/Reference/Global_Objects/Array)
+
