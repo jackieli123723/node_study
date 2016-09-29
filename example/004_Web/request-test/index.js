@@ -2,32 +2,52 @@ const
     progress = require('request-progress'),
     cheerio = require('cheerio'),
     request = require('request'),
+    GBK2UTF8 = require('..\\..\\iconv\\index').GBK2UTF8,
     fs = require('fs'),
     rp = require('request-promise');
 
-module.exports.httpGet=function(url, jq=true,encoding='utf-8'){
+let USER_AGENT = 'Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 10.0; WOW64; Trident/7.0; .NET4.0C; .NET4.0E; .NET CLR 2.0.50727; .NET CLR 3.0.30729; .NET CLR 3.5.30729)';
+module.exports.putUserAgent=function(v){
+    USER_AGENT = v;
+};
+module.exports.getUserAgent=function(){
+    return USER_AGENT;
+};
+
+function httpGet(url, jq=true,encoding='utf-8'){
+    
     let cfg = {
-        uri: url.trim(),
         timeout:10000,
-        // encoding: null,
         headers: {
-            'User-Agent': 'Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 10.0; WOW64; Trident/7.0; .NET4.0C; .NET4.0E; .NET CLR 2.0.50727; .NET CLR 3.0.30729; .NET CLR 3.5.30729)'
+            'User-Agent': USER_AGENT
         }
     };
+    if(typeof(url) == 'object'){
+        encoding = url.encoding;
+        jq = (url.jq === true);
+        cfg = Object.assign({},cfg, url);
+    }else{
+        cfg.url = url.trim();
+    }
     if(encoding != 'utf-8'){
         cfg['encoding'] = null;
     }
     if(jq===true){
         cfg['transform'] = function (body) {
             if(encoding == 'gb2312'){
-                let gbk_to_utf8_iconv = new Iconv('GBK', 'UTF-8//TRANSLIT//IGNORE');
-                body = gbk_to_utf8_iconv.convert(body);
+                body = GBK2UTF8(body);
             }
             return cheerio.load(body, { decodeEntities: false });
         };
     }
+    //console.log(cfg);
     return rp(cfg);
 }
+/**
+ *
+ * @return Promise
+ */
+module.exports.httpGet=httpGet;
 
 
 function downloadProgress(link, fn){
@@ -54,10 +74,74 @@ function downloadProgress(link, fn){
                 process.stdout.write(`\r ${progress}(${state.size.transferred}/${total}), ${(state.speed/1024).toFixed(2)}KB/sec           `);
             })
             .on('error', function (err) {
-                n(err);
+                n({error: err, fn: fn, link: link});
             })
             .pipe( fs.createWriteStream(fn) );
     });
 }
 
 module.exports.downloadProgress =downloadProgress;
+/**
+ * code = 0 жие\
+ */    
+function checkFile(fn, url_cfg){
+    return new Promise( (y,n)=>{
+        fs.stat(fn, (err, stats)=>{
+            if(err){
+                y({code: 1, error: err});
+                return;
+            }
+            if(stats.size == 0){
+                y({code: 2});
+                return;
+            }
+            
+            request(Object.assign(url_cfg,{
+                'method' : 'head'
+            }), function(err, resp){
+                //console.log(resp.headers);
+                if(err){
+                    y({code:3, error: err});
+                    return;
+                }
+                let size = parseInt(resp.headers['content-length']);
+                if(stats.size == size){
+                    y({code:0});
+                }else{
+                    y({code:4, local_size: stats.size, remote_size:size});
+                }
+            });
+        });
+    });
+}
+module.exports.checkFile =checkFile;
+
+
+module.exports.un53share = function(url){
+
+    return httpGet({
+        url: url,
+        jq: true,
+        headers: {
+            'User-Agent':USER_AGENT,
+            Referer:url
+        }
+    }).then( $ =>{
+        let href = $('a.redirect[rel=nofollow]').attr('href');
+        return httpGet({
+                url: href,
+                method: 'head',
+                resolveWithFullResponse: true,
+                followRedirect: false,
+                followAllRedirects: false,
+                headers: {
+                    'User-Agent':USER_AGENT
+                }
+            });
+            
+    }).then( resp =>{
+        return resp.headers.location;
+    }).catch( err => {
+        return err.response.headers.location;
+    });
+};
