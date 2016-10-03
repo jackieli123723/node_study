@@ -63,6 +63,13 @@
                     </css-transition>
                 </div>
             </div>
+            <div class="panel panel-primary" v-if="current=='jquery-transition'">
+                <div class="panel-heading">整合jQuery動畫</div>
+                <div class="panel-body">
+                    <jquery-transition>
+                    </jquery-transition>
+                </div>
+            </div>
         </div>
     </basic-layout>
 </template>
@@ -78,6 +85,7 @@ import DragBasic from './DragBasic.vue'
 import DragBasic2 from './DragBasic2.vue'
 import FormBinding from './FormBinding.vue'
 import CssTransition from './CssTransition.vue'
+import JqueryTransition from './JqueryTransition.vue'
 export default {
   components: {
     BasicLayout,
@@ -87,10 +95,11 @@ export default {
     FormIde,
     DragSort,
     DragBasic,
-    //GMap,
     DragBasic2,
     FormBinding,
     CssTransition,
+    JqueryTransition,
+    //GMap,
     //LineApp
   },
   data () {
@@ -120,6 +129,9 @@ export default {
       },{
         id: 'css-transition',
         title: 'CSS過度'
+      },{
+        id: 'jquery-transition',
+        title: '整合jQuery動畫'
       }]
     }
   },
