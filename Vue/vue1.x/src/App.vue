@@ -70,6 +70,14 @@
                     </jquery-transition>
                 </div>
             </div>
+            <div class="panel panel-primary" v-if="current=='image-select'">
+                <div class="panel-heading">圖片選取預覽</div>
+                <div class="panel-body">
+                    <image-select></image-select>
+                </div>
+            </div>
+            
+            
         </div>
     </basic-layout>
 </template>
@@ -86,6 +94,7 @@ import DragBasic2 from './DragBasic2.vue'
 import FormBinding from './FormBinding.vue'
 import CssTransition from './CssTransition.vue'
 import JqueryTransition from './JqueryTransition.vue'
+import ImageSelect from './ImageSelect.vue'
 export default {
   components: {
     BasicLayout,
@@ -99,6 +108,7 @@ export default {
     FormBinding,
     CssTransition,
     JqueryTransition,
+    ImageSelect,
     //GMap,
     //LineApp
   },
@@ -132,6 +142,9 @@ export default {
       },{
         id: 'jquery-transition',
         title: '整合jQuery動畫'
+      },{
+        id: 'image-select',
+        title: '圖片選取預覽'
       }]
     }
   },
