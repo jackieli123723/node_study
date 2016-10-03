@@ -1,0 +1,42 @@
+{
+  "name": "vue1.x",
+  "description": "A Vue.js project",
+  "author": "cwchiu <sisimi.pchome@gmail.com>",
+  "private": true,
+  "scripts": {
+    "dev": "webpack-dev-server --inline --hot",
+    "build": "cross-env NODE_ENV=production webpack --progress --hide-modules",
+    "build-vue": "cross-env NODE_ENV=production webpack --config webpack.vue.config.js --progress --hide-modules"
+  },
+  "dependencies": {
+    "babel-runtime": "^6.0.0",
+    "jquery": "^3.1.1",
+    "jquery-ui": "^1.12.1",
+    "vue": "^1.0.0",
+    "vue-dnd": "^0.1.1",
+    "vue-drag-reorder": "^1.0.3",
+    "vue-google-maps": "^0.1.21",
+    "vue-router": "^0.7.13",
+    "vuex": "^1.0.0-rc.2"
+  },
+  "devDependencies": {
+    "babel-core": "^6.0.0",
+    "babel-loader": "^6.0.0",
+    "babel-plugin-transform-runtime": "^6.0.0",
+    "babel-preset-es2015": "^6.0.0",
+    "babel-preset-stage-2": "^6.0.0",
+    "cross-env": "^1.0.6",
+    "css-loader": "^0.23.0",
+    "file-loader": "^0.8.4",
+    "grunt-vueify": "^1.0.1",
+    "json-loader": "^0.5.4",
+    "url-loader": "^0.5.7",
+    "vue-hot-reload-api": "^1.2.0",
+    "vue-html-loader": "^1.0.0",
+    "vue-loader": "^8.2.1",
+    "vue-mixins": "^0.3.2",
+    "vue-style-loader": "^1.0.0",
+    "webpack": "^1.12.2",
+    "webpack-dev-server": "^1.12.0"
+  }
+}
