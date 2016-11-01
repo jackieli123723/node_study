@@ -1,106 +1,274 @@
+const assert = require('assert');
 
-function str_to_number(){
-    // 將字符串轉換為16進制的數值
-    console.log( `parseInt('AB3', 16)=` + parseInt('AB3', 16));
-    // 將字符串轉換為10進制的數值
-    console.log(`parseInt('13', 10)=`+parseInt('13', 10) );
-    // 將字符串轉換為8進制的數值
-    console.log(`parseInt('172', 8) =`+parseInt('172', 8));
-    // 將字符串轉換為2進制的數值
-    console.log(`parseInt('1010', 2)=`+parseInt('1010', 2));
-    console.log(`parseInt('999', 2)=`+parseInt('999', 2));
-}
+describe('進位轉換', ()=>{
+    it('10 進位轉 2進位', ()=>{
+        let n = 10;
+        let bin = n.toString(2);
+        assert.equal(bin, '1010');
+    });
+    it('10 進位轉 8進位', ()=>{
+        let n = 10;
+        let oct = n.toString(8);
+        assert.equal(oct, '12');
+    });
     
+    it('10 進位轉 16進位', ()=>{
+        let n = 255;
+        let hex = n.toString(16);
+        assert.equal(hex, 'ff');
+    });
+    
+    it('16 進位轉 10進位', ()=>{
+        let n = parseInt('ff', 16);
+        assert.equal( n, 255);
+    });
+    it('8 進位轉 10進位', ()=>{
+        let n = parseInt('12', 8);
+        assert.equal( n, 10 );
+    });
+    it('2 進位轉 10進位', ()=>{
+        let n = parseInt('1010', 2);
+        assert.equal( n, 10 );
+    });
+});
+
+describe('字面常數', ()=>{
+    it('16進位', ()=>{
+        assert.equal(0xff, 255);
+    });
+    it('8進位', ()=>{
+        assert.equal(012, 10);
+        assert.equal(0o12, 10);
+    });
+    it('2進位', ()=>{
+        assert.equal(0b1010, 10);
+    });
+    
+    it('科學記號', ()=>{
+        assert.equal(123e5, 12300000);
+        assert.equal(123e-5, 0.00123);
+    });
+});
+
+
 function date_to_number(){
     // Date to timetamp
     console.log(`Number(new Date())=`+Number(new Date())); 
 }
 
-function test_isSafeInteger(){
-    // http://www.w3schools.com/jsref/jsref_issafeinteger.asp
-    console.log('== Number.isSafeInteger() ==');
-    console.log(`Number.isSafeInteger('a')=`+Number.isSafeInteger('a')); // <- false
-    console.log(`Number.isSafeInteger(null)=`+Number.isSafeInteger(null)); // <- false
-    console.log(`Number.isSafeInteger(NaN)=`+Number.isSafeInteger(NaN)); // <- false
-    console.log(`Number.isSafeInteger(Infinity)=`+Number.isSafeInteger(Infinity)); // <- false
-    console.log(`Number.isSafeInteger(-Infinity)=`+Number.isSafeInteger(-Infinity)); // <- false
-    console.log(`Number.isSafeInteger(Number.MIN_SAFE_INTEGER - 1)=`+Number.isSafeInteger(Number.MIN_SAFE_INTEGER - 1)); // <- false
-    console.log(`Number.isSafeInteger(Number.MIN_SAFE_INTEGER)=`+Number.isSafeInteger(Number.MIN_SAFE_INTEGER)); // <- true
-    console.log(`Number.isSafeInteger(1)=`+Number.isSafeInteger(1)); // <- true
-    console.log(`Number.isSafeInteger(1.2)=`+Number.isSafeInteger(1.2)); // <- false
-    console.log(`Number.isSafeInteger(Number.MAX_SAFE_INTEGER)=`+Number.isSafeInteger(Number.MAX_SAFE_INTEGER)); // <- true
-    console.log(`Number.isSafeInteger(Number.MAX_SAFE_INTEGER + 1)=`+Number.isSafeInteger(Number.MAX_SAFE_INTEGER + 1)); // <- false
-    console.log(`Number.isSafeInteger(9007199254740000)=`+Number.isSafeInteger(9007199254740000)); // <- true
-    console.log(`Number.isSafeInteger(993)=`+Number.isSafeInteger(993)); // <- true
-    console.log(`Number.isSafeInteger(9007199254740000 + 993)=`+Number.isSafeInteger(9007199254740000 + 993)); // <- false
-        // Number.MAX_SAFE_INTEGER
-    console.log('Number.MAX_SAFE_INTEGER === Math.pow(2, 53) - 1='+(Number.MAX_SAFE_INTEGER === Math.pow(2, 53) - 1)); // <- true
-    console.log(`Number.MAX_SAFE_INTEGER === 9007199254740991=`+(Number.MAX_SAFE_INTEGER === 9007199254740991)); // <- true
 
-        // Number.MIN_SAFE_INTEGER
-    console.log(`Number.MIN_SAFE_INTEGER === -Number.MAX_SAFE_INTEGER=`+(Number.MIN_SAFE_INTEGER === -Number.MAX_SAFE_INTEGER)); // <- true
-    console.log(`Number.MIN_SAFE_INTEGER === -9007199254740991=`+(Number.MIN_SAFE_INTEGER === -9007199254740991)); // <- true
-
-}
-
-function test_isInteger(){
-    // http://www.w3schools.com/jsref/jsref_isinteger.asp
-    console.log('== Number.isInteger ==');
-    console.log(`Number.isInteger(Infinity)=`+Number.isInteger(Infinity)); // <- false
-    console.log(`Number.isInteger(-Infinity)=`+Number.isInteger(-Infinity));// <- false
-    console.log(`Number.isInteger(NaN)=`+Number.isInteger(NaN));// <- false
-    console.log(`Number.isInteger(null)=`+Number.isInteger(null));// <- false
-    console.log(`Number.isInteger(0)=`+Number.isInteger(0));// <- true
-    console.log(`Number.isInteger(-10)=`+Number.isInteger(-10));// <- true
-    console.log(`Number.isInteger(10.3)=`+Number.isInteger(10.3));// <- false
-
-}
-
-function test_toExponential(){
+describe('Number.prototype', ()=>{
     // http://www.w3schools.com/jsref/jsref_toexponential.asp
-    console.log('== toExponential ==');
-    console.log(`5.56789.toExponential(3)=`+5.56789.toExponential(3));
-    console.log(`5.56789.toExponential()=`+5.56789.toExponential());
-    
-}
-
-function test_toFixed(){
-    
+    describe('.toExponential()', ()=>{
+        it('5.56789.toExponential(3)="5.568e+0"', ()=>{
+            assert.equal(5.56789.toExponential(3), '5.568e+0');
+        });
+        
+        it(`不指定精準度 5.56789.toExponential()='5.56789e+0'`, ()=>{
+            assert.equal(5.56789.toExponential(), '5.56789e+0');
+        });
+    });
     // http://www.w3schools.com/jsref/jsref_tofixed.asp
-    console.log('== toFixed ==');
-    console.log(`5.56789.toFixed(2)=`+5.56789.toFixed(2));
-    console.log(`5.56789.toFixed()=`+5.56789.toFixed());
+    describe('.toFixed(n)', ()=>{
+        it('.toFixed( 2 ) 四捨五入到第2位', ()=>{
+            assert.equal(5.56789.toFixed(2), 5.57);
+        });
+        
+        it('.toFixed() 預設值 0', ()=>{
+            assert.equal(5.56789.toFixed(), 6);
+        });
+        it('.toFixed() : n <0, RangeError', ()=>{
+            try{
+                5.56789.toFixed(-1);
+                assert.ok( false );
+            }catch(ex){
+                assert.equal(ex instanceof RangeError, true);
+            }
+        });
+        it('.toFixed() : n >20, RangeError', ()=>{
+            try{
+                5.56789.toFixed(21);
+                assert.ok( false );
+            }catch(ex){
+                assert.equal(ex instanceof RangeError, true);
+            }
+        });
     
-}
-
-function test_isFinite(){
-    // http://www.w3schools.com/jsref/jsref_isfinite_number.asp
-    console.log('== Number.isFinite ==');
-    console.log(`Number.isFinite(NaN)=`+Number.isFinite(NaN)); // <- false
-    console.log(`Number.isFinite(Infinity)=`+Number.isFinite(Infinity)); // <- false
-    console.log(`Number.isFinite(-Infinity)=`+Number.isFinite(-Infinity)); // <- false
-    console.log(`Number.isFinite(null)=`+Number.isFinite(null)); // <- false
-    console.log(`Number.isFinite(0)=`+Number.isFinite(0)); // <- true
-}
-
-function test_toPrecision(){
-    console.log('== toPrecision ==');
+    });
+    
     // http://www.w3schools.com/jsref/jsref_toprecision.asp
-    console.log(`13.3714.toPrecision()=`+13.3714.toPrecision());
-    console.log(`13.3714.toPrecision(2)=`+13.3714.toPrecision(2));
-    console.log(`13.3714.toPrecision(3)=`+13.3714.toPrecision(3));
-    console.log(`13.3714.toPrecision(10)=`+13.3714.toPrecision(10));
-}
+    describe('.toPrecision(n): n=0~21', ()=>{
+        it(`n 預設值 全保留`, ()=>{
+            assert.equal(13.3714.toPrecision(), 13.3714);
+            assert.equal(13.371412345678901234567890, 13.371412345678902);
+            assert.equal(13.371412345678901234567890.toPrecision(), 13.371412345678902);
+        });
+        it(`13.3714.toPrecision(2)=`, ()=>{
+            assert.equal(13.3714.toPrecision(2), 13);
+        });
+        it(`13.3714.toPrecision(3)=13.4`, ()=>{
+            assert.equal(13.3717.toPrecision(3), 13.4);
+        });
+        it(`13.3714.toPrecision(10)=`, ()=>{
+            assert.equal(13.3714.toPrecision(10), 13.3714000000);
+        });
+        it(`n < 0`, ()=>{
+            try{
+                13.3714.toPrecision(-1);
+                assert.ok( false );
+            }catch(ex){
+                assert.equal(ex instanceof RangeError, true);
+            }
+        });
+        it(`n >21 `, ()=>{
+            try{
+                13.3714.toPrecision(100);
+                assert.ok( false );
+            }catch(ex){
+                assert.equal(ex instanceof RangeError, true);
+            }
+        });
+    });
+});
 
-function test_isNaN(){
+describe('Number', ()=>{
+    // http://www.w3schools.com/jsref/jsref_isfinite_number.asp
+    describe('.isFinite()', ()=>{
+    
+        it('Number.isFinite(NaN) == false', ()=>{
+            assert.equal(Number.isFinite(NaN), false);
+        });
+        it('Number.isFinite(Infinity) == false', ()=>{
+            assert.equal(Number.isFinite(Infinity), false);
+        });
+        it('Number.isFinite(-Infinity) == false', ()=>{
+            assert.equal(Number.isFinite(-Infinity), false);
+        });
+        it('Number.isFinite(null) == false', ()=>{
+            assert.equal(Number.isFinite(null), false); 
+        });
+        it('Number.isFinite(0) == true', ()=>{
+            assert.equal(Number.isFinite(0), true); 
+        });
+    });
+    
     // http://www.w3schools.com/jsref/jsref_isnan_number.asp
-    console.log('== Number.isNaN() ==');
-    console.log(`Number.isNaN(123)=`+Number.isNaN(123)); // <- false, integers are not NaN
-    console.log(`Number.isNaN(Infinity)=`+Number.isNaN(Infinity)); // <- false, Infinity is not NaN
-    console.log(`Number.isNaN('ponyfoo')=`+Number.isNaN('ponyfoo')); // <- false, 'ponyfoo' is not NaN
-    console.log(`Number.isNaN(NaN)=`+Number.isNaN(NaN)); // <- true, NaN is NaN
-    console.log(`Number.isNaN('pony'/'foo')=`+Number.isNaN('pony'/'foo')); // <- true, 'pony'/'foo' is NaN, NaN is NaN
-}
+    describe('Number.isNaN(v)', ()=>{
+        it(`.isNaN(123)=`, ()=>{
+            assert.equal(Number.isNaN(123), false);
+        });
+        it(`.isNaN(Infinity)=false`, ()=>{
+            assert.equal(Number.isNaN(Infinity), false);
+        });
+        it(`.isNaN('ponyfoo')=false`, ()=>{
+            assert.equal(Number.isNaN('ponyfoo'), false);
+        });
+        it(`.isNaN(NaN)=true`, ()=>{
+            assert.equal(Number.isNaN(NaN), true);
+        });
+        it(`.isNaN('pony'/'foo')=true`, ()=>{
+            assert.equal(Number.isNaN('pony'/'foo'), true);
+        });
+    });
+    
+    describe('常數定義', ()=>{
+        it(`Number.MIN_SAFE_INTEGER = -Number.MAX_SAFE_INTEGER=`, ()=>{
+            assert.equal(Number.MIN_SAFE_INTEGER,-Number.MAX_SAFE_INTEGER);
+        });
+        it(`Number.MIN_SAFE_INTEGER = -9007199254740991=`, ()=>{
+            assert.equal(Number.MIN_SAFE_INTEGER, -9007199254740991);
+        })
+        it('Number.MAX_SAFE_INTEGER = Math.pow(2, 53) - 1=', ()=>{
+            assert.equal(Number.MAX_SAFE_INTEGER, Math.pow(2, 53) - 1);
+        })
+        it(`Number.MAX_SAFE_INTEGER = 9007199254740991=`, ()=>{
+            assert.equal(Number.MAX_SAFE_INTEGER, 9007199254740991);
+        });
+        it('.MAX_VALUE=1.7976931348623157e+308', ()=>{ 
+            assert.equal(Number.MAX_VALUE, 1.7976931348623157e+308);
+        }); 
+        it('.MIN_VALUE=5e-324', ()=>{ 
+            assert.equal(Number.MIN_VALUE, 5e-324);
+        }); 
+        it('.NEGATIVE_INFINITY=-Infinity', ()=>{ 
+            assert.equal(Number.NEGATIVE_INFINITY,-Infinity);
+        }); 
+        it('.POSITIVE_INFINITY=Infinity', ()=>{ 
+            assert.equal(Number.POSITIVE_INFINITY,Infinity);
+        }); 
+        it('.EPSILON=2.220446049250313e-16', ()=>{ 
+            assert.equal(Number.EPSILON,2.220446049250313e-16);
+        }); 
+        it('.EPSILON.toFixed(20)=0.00000000000000022204', ()=>{ 
+            assert.equal(Number.EPSILON.toFixed(20),0.00000000000000022204);
+        }); 
+    });
+    
+        
+    // http://www.w3schools.com/jsref/jsref_issafeinteger.asp
+    describe('.isSafeInteger(v)', ()=>{
+        it(`.isSafeInteger('a')=false`, ()=> {
+            assert.equal(Number.isSafeInteger('a'), false);
+        });
+        it(`.isSafeInteger(null)=false`, ()=> {
+            assert.equal(Number.isSafeInteger(null), false);
+        });
+        it(`.isSafeInteger(NaN)=false`, ()=> {
+            assert.equal(Number.isSafeInteger(NaN), false);
+        });
+        it(`.isSafeInteger(Infinity)=false`, ()=> {
+            assert.equal(Number.isSafeInteger(Infinity),false);
+        });
+        it(`.isSafeInteger(-Infinity)=false`, ()=> {
+            assert.equal(Number.isSafeInteger(-Infinity), false);
+        });
+        it(`.isSafeInteger(Number.MIN_SAFE_INTEGER - 1)=false`, ()=> {
+            assert.equal(Number.isSafeInteger(Number.MIN_SAFE_INTEGER - 1), false);
+        });
+        it(`.isSafeInteger(1)=true`, ()=> {
+            assert.equal(Number.isSafeInteger(1), true);
+        });
+        it(`.isSafeInteger(1.2)=false`, ()=> {
+            assert.equal(Number.isSafeInteger(1.2), false);
+        });
+        it(`.isSafeInteger(9007199254740000)=true`, ()=> {
+            assert.equal(Number.isSafeInteger(9007199254740000), true);
+        });
+        it(`.isSafeInteger(993)=true`, ()=> {
+            assert.equal(Number.isSafeInteger(993), true);
+        });
+    });
+
+    // http://www.w3schools.com/jsref/jsref_isinteger.asp
+    describe('.isInteger(v)', ()=>{
+        it(`.isInteger(Infinity)=false`, ()=>{
+            assert.equal(Number.isInteger(Infinity), false);
+        });
+        it(`.isInteger(-Infinity)=false`, ()=>{
+            assert.equal(Number.isInteger(-Infinity), false);
+        });
+        
+        it(`.isInteger(NaN)=false`, ()=>{
+            assert.equal(Number.isInteger(NaN), false);
+        });
+        
+        it(`.isInteger(null)=false`, ()=>{
+            assert.equal(Number.isInteger(null), false);
+        });
+        
+        it(`.isInteger(0)=true`, ()=>{
+            assert.equal(Number.isInteger(0), true);
+        });
+        
+        it(`.isInteger(-10)=true`, ()=>{
+            assert.equal(Number.isInteger(-10), true);
+        });
+        
+        it(`.isInteger(10.3)=false`, ()=>{
+            assert.equal(Number.isInteger(10.3), false);
+        });
+    });
+});
 
 function test_math_exp(){
     console.log('== Math.exp() ==');
@@ -326,36 +494,8 @@ function test_math_random(){
 }
 
 function main(){
-    // 二進位
-    console.log(`0b001=`+0b001); // 1
-    console.log(`0b010=`+0b010); // 2
-    console.log(`0b011=`+0b011); // 3
-    console.log(`0b100=`+0b100); // 4
-    
-    // 八進位
-    console.log(`0o010=`+0o010); // 8
-    console.log(`0o100=`+0o100); // 64
-    // 16進位
-    console.log(`0xff=`+0xff); // 255
-    console.log(`0x64=`+0x64); // 100
-    
-    console.log(`123e5=`+123e5);
-    console.log(`123e-5=`+123e-5);
-    
-    console.log('Number.MAX_VALUE='+Number.MAX_VALUE); 
-    console.log('Number.MIN_VALUE='+Number.MIN_VALUE); 
-    console.log('Number.NEGATIVE_INFINITY='+Number.NEGATIVE_INFINITY); 
-    console.log('Number.POSITIVE_INFINITY='+Number.POSITIVE_INFINITY); 
-    console.log('Number.EPSILON='+Number.EPSILON); // <- 2.220446049250313e-16, wait what?
-    console.log('Number.EPSILON.toFixed(20)='+Number.EPSILON.toFixed(20)); // <- '0.00000000000000022204', got it
-    test_toFixed();
-    test_toExponential();
 
-    test_isSafeInteger();
-    test_isInteger();
-    test_isFinite();
-    test_isNaN();
-    test_toPrecision();
+
     
     console.log(`Math.E=`+Math.E);
     console.log(`Math.LN2=`+Math.LN2);
@@ -391,4 +531,4 @@ function main(){
 }
 
 
-main();
+// main();
