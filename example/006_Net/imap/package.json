@@ -1,0 +1,15 @@
+{
+  "name": "test",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Chui-Wen Chiu",
+  "license": "ISC",
+  "dependencies": {
+    "imap": "^0.8.18",
+    "mailparser": "^0.6.1"
+  }
+}
