@@ -9,8 +9,8 @@
     "node": ">=6.2.1"
   },
   "dependencies": {
-    "extend": "^3.0.0",
-    "nodemailer": "^2.5.0"
+    "nodemailer": "^2.6.4",
+    "smtp-connection": "^2.12.2"
   },
   "main": "main.js"
 }

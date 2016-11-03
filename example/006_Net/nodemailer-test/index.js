@@ -1,37 +1,44 @@
-// https://github.com/nodemailer/nodemailer
-let nodemailer = require("nodemailer"),
-    extend = require("extend");
-    
+const nodemailer = require("nodemailer");
+
 function sendMail(args){
-    args = args || {};
-    args = extend(false, {
+    args = Object.assign({}, {
         'smtp_debug' : false,
         'smtp_server' : 'smtp.pchome.com.tw',
         'smtp_port' : 25,
         'smtp_secure' : false,
         'smtp_uid' : 'test',
         'smtp_pwd' : '1234',
+        'requireTLS' : false,
         'mail_is_html' : true,
         'mail_charset' : 'UTF-8',
         'mail_sender' : 'test@example.com',
         'mail_sender_name' : 'NoName',
-        'mail_subject' : 'Untitle', //ä¿¡çš„æ¨™é¡Œ
-        'mail_content' : 'hello world',  //ç™¼ä¿¡ä¸»é«”å…§å®¹4
-        'mail_receiver' : [],  //æ”¶ä»¶äººåœ°å€
-        'mail_attachment' : []  //é™„ä»¶
+        'mail_subject' : 'Untitle', //«Hªº¼ĞÃD
+        'mail_content' : 'hello world',  //µo«H¥DÅé¤º®e4
+        'mail_receiver' : [],  //¦¬¥ó¤H¦a§}
+        'mail_attachment' : []  //ªş¥ó
     }, args);
     
-    let transport = nodemailer.createTransport({
+    // console.log(args);
+    let transfer_cfg = {
       debug : args['smtp_debug'] === true,
       logger : args['smtp_debug'] === true,
       host: args['smtp_server'],
-      post: args['smtp_port'],
+      port: args['smtp_port'],      
       secure: args['smtp_secure'],
-      auth:{
-        user:args['smtp_uid'],
-        pass:args['smtp_pwd']
-      }
-    });
+      requireTLS: args['requireTLS']
+    }
+    if(args['name']){
+        transfer_cfg.name = args['name'];
+    }
+    if(args['smtp_uid'] && args['smtp_pwd']){
+        transfer_cfg.auth = {
+            user:args['smtp_uid'],
+            pass:args['smtp_pwd']
+          };
+    }
+    let transport = nodemailer.createTransport(transfer_cfg);
+    // console.log(transport);
     let cfg = {
         from:`"${args['mail_sender_name']}" <${args['mail_sender']}>`,
         to: args['mail_receiver'].join(';'),
@@ -46,18 +53,16 @@ function sendMail(args){
     if(Array.isArray(args['mail_attachment'])){
         cfg['attachments'] = args['mail_attachment'];
     }
-    transport.sendMail(cfg, function(err,response){
-        if (err){
-          console.log(err);
-        }else{
-          console.log(response);
-        }
-    });
+    return new Promise( (y,n)=>{
+        transport.sendMail(cfg, (err, resp)=>{
+            if (err){
+                n(err);
+                return;
+            }
+            
+            y(resp);
+        });
+    })
 }
 
-sendMail({
-    'smtp_debug': true,
-    'mail_subject' : 'hello phpmailer',
-    'mail_content' : '<h1> hello phpmailer  </h1>',
-    'mail_receiver' :['test@grr.la']
-});
+module.exports = {sendMail};
