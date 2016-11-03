@@ -1,11 +1,12 @@
 const 
+    smtp = require('../../006_Net/nodemailer-test/index'),
     str = require('../../001_Syntax/String/index'),
     imapEx = require('./index'),
     co = require('../../001_Syntax/Promise/index').co,
     Imap = require('imap'),
     fs = require('fs'),
     repl = require('repl'),
-    account = require('D:/WinApp/SuperNotePy/account.json'),
+    account = require('./config/account.json'),
     inspect = require('util').inspect;
     
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
@@ -55,6 +56,12 @@ function main(){
         }
             
         let r = repl.start({prompt: '>'});
+        r.context.mail = {
+            subject: 'hello',
+            content: 'hello content',
+            receiver: ['sisimi.pchome@gmail.com']
+        };
+        r.context.m = "aaa";
         r.defineCommand('quit', {
           help: 'quit app',
           action: function(name) {
@@ -139,6 +146,35 @@ function main(){
             .then( () => reset(this) );
           }
         });
+        r.defineCommand('test', {
+          help: 'test',
+          action: function(v) {
+            console.log(r.context.mail);
+            console.log(v);
+            console.log(arguments);
+          }
+        });
+        r.defineCommand('mail', {
+          help: 'send mail',
+          action: function() {
+              smtp.sendMail({
+                'smtp_debug': true,
+                'name' : account.smtpHostname,
+                'mail_subject' : r.context.mail.subject,
+                'mail_content' : r.context.mail.content,
+                'mail_receiver' : r.context.mail.receiver,
+                'mail_sender' : account.senderMail,
+                'mail_sender_name': account.senderName,
+                'smtp_uid' : null,
+                'smtp_pwd' : null,
+                'smtp_server' : account.smtpHost,
+                'smtp_port' : account.smtpPort,
+                'requireTLS': true,
+                'smtp_secure' : false
+            }).catch( console.error)
+            .then( () => reset(this) );
+          }
+        });
         
         setInterval( ()=>{
             // console.log(wait);
@@ -176,4 +212,5 @@ module.exports = {
     
 if (require.main === module) {
     main();
+    
 }
