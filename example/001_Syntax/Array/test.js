@@ -384,11 +384,11 @@ describe('Array.prototype', ()=>{
     });
         
     /**
-     *
+     * 陣列合併
      * http://www.w3schools.com/jsref/jsref_concat_array.asp
      * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/concat
      */
-    describe('陣列合併 concat(array2, array3,..., arrayX)', ()=>{
+    describe('concat(array2, array3,..., arrayX)', ()=>{
         it('[1,2].concat([3,4])=new [1,2,3,4]', ()=>{
             let v = [1,2].concat([3,4]);
             assert.equal(v.length, 4);
@@ -590,16 +590,20 @@ describe('Array.prototype', ()=>{
     });
 
     /**
+     * es5: 回傳符合指定函數的陣列元素
+     *
      * http://www.w3schools.com/jsref/jsref_join.asp
      * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/filter
      */
-    describe('es5: 回傳符合指定函數的陣列元素', ()=>{
-        let v = [1,2,3,4].filter((v,idx,arr)=>{
-            return v%2==0;
+    describe('filter(function(value,index,array)[, thisArg])', ()=>{
+        it('返回偶數', ()=>{
+            let v = [1,2,3,4].filter((v,idx,arr)=>{
+                return v%2==0;
+            });
+            assert.equal(v.length, 2);
+            assert.equal(v[0], 2);
+            assert.equal(v[1], 4);
         });
-        assert.equal(v.length, 2);
-        assert.equal(v[0], 2);
-        assert.equal(v[1], 4);
     });
 
     /**
@@ -618,6 +622,11 @@ describe('Array.prototype', ()=>{
             let a = [1,2,3,4];
             let b = a.every( (v,idx,arr)=>v%2==0);
             assert.equal( b, false);
+        });
+        it('陣列長度 0 任何過濾都為 true', ()=>{
+            let a = [];
+            let b = a.every( (v,idx,arr)=>v%2==0);
+            assert.equal( b, true);
         });
     });
 
@@ -693,7 +702,7 @@ describe('Array.prototype', ()=>{
      * http://www.w3schools.com/jsref/jsref_indexof_array.asp
      * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/indexOf
      */
-    describe('== indexOf(item,start) ==', ()=>{
+    describe('indexOf(item,start)', ()=>{
         it('不指定 start 預設 length', ()=>{
             let a = [1,2,3,4,5,6].indexOf(2);
             assert.equal(a, 1);
@@ -802,5 +811,122 @@ describe('Array.prototype', ()=>{
             assert.equal(a[2], 'a');
             assert.equal(a[3], 'a');
         });
+        
+        it('初始填滿3個{}', ()=>{
+            let a = (new Array(3)).fill({},0,3);
+            assert.equal(a.length, 3);
+            assert.equal(JSON.stringify(a[0]), '{}');
+            assert.equal(JSON.stringify(a[1]), '{}');
+            assert.equal(JSON.stringify(a[2]), '{}');
+        });
+    });
+});
+
+describe('ArrayBuffer', ()=>{
+    describe('.byteLength byte 長度', ()=>{
+        it('ArrayBuffer 指定 length 配置', ()=>{
+            let buffer = new ArrayBuffer(8);
+            assert.equal( buffer.byteLength, 8);
+        });
+        
+        it('Int8Array 8位有符號整數, 每個元素長度 1byte', ()=>{
+            let arr = new Int8Array(1);
+            assert.equal(arr.byteLength, 1);
+            
+            let arr2 = new Int8Array(2);
+            assert.equal(arr2.byteLength, 2);
+            
+        });
+        it('Uint8Array 8位無符號整數, 每個元素長度 1byte', ()=>{
+            let arr = new Uint8Array(1);
+            assert.equal(arr.byteLength, 1);
+            
+            let arr2 = new Uint8Array(2);
+            assert.equal(arr2.byteLength, 2);
+            
+        });
+        
+        it('Int16Array 16位有符號整數, 每個元素長度 2byte', ()=>{
+            let arr = new Int16Array(1);
+            assert.equal(arr.byteLength, 2);
+            
+            let arr2 = new Int16Array(2);
+            assert.equal(arr2.byteLength, 4);
+            
+        });
+        it('Uint16Array 16位無符號整數, 每個元素長度 2byte', ()=>{
+            let arr = new Uint16Array(1);
+            assert.equal(arr.byteLength, 2);
+            
+            let arr2 = new Uint16Array(2);
+            assert.equal(arr2.byteLength, 4);
+            
+        });
+        
+        it('Int32Array 32位有符號整數, 每個元素長度 4byte', ()=>{
+            let arr = new Int32Array(1);
+            assert.equal(arr.byteLength, 4);
+            
+            let arr2 = new Int32Array(2);
+            assert.equal(arr2.byteLength, 8);
+            
+        });
+        it('Uint32Array 32位無符號整數, 每個元素長度 4byte', ()=>{
+            let arr = new Uint32Array(1);
+            assert.equal(arr.byteLength, 4);
+            
+            let arr2 = new Uint32Array(2);
+            assert.equal(arr2.byteLength, 8);
+            
+        });
+        
+        it('Float32Array 32位浮點數, 每個元素長度 4byte', ()=>{
+            let arr = new Float32Array(1);
+            assert.equal(arr.byteLength, 4);
+            
+            let arr2 = new Float32Array(2);
+            assert.equal(arr2.byteLength, 8);
+            
+        });
+        it('Float64Array 64位浮點數, 每個元素長度 8byte', ()=>{
+            let arr = new Float64Array(1);
+            assert.equal(arr.byteLength, 8);
+            
+            let arr2 = new Float64Array(2);
+            assert.equal(arr2.byteLength, 16);
+            
+        });
+        
+        
+    })
+
+    describe('混合類型資料儲存在同一個 ArrayBuffer', ()=>{
+        // 創建一段12字節的ArrayBuffer
+        let b = new ArrayBuffer(12);
+        
+        // 在b上創建一個視圖v1，視圖中每個元素類型為Uint8（佔1字節），開始於字節索引0，結束於ArrayBuffer結尾
+        let v1 = new Uint8Array(b);
+
+        
+        // 在b上創建一個視圖v2，視圖中每個元素類型為Uint32（佔4字節），開始於字節索引4，結束於ArrayBuffer結尾
+        let v2 = new Uint32Array(b,4);
+        
+        // 在b上創建一個視圖v3，視圖中每個元素類型為Uint16（佔2字節），開始於字節索引2，視圖長度為2，結束於字節索引5
+        let v3 = new Uint16Array(b,2,2);
+        
+        // v3[0]
+        v1[2]=1;
+        v1[3]=0;
+        // v3[1]
+        v1[4]=0xe7;
+        v1[5]=0x3;
+        assert.equal(v3[0], 1);
+        assert.equal(v3[1], 999);
+        // v2[1]
+        v1[8]=4;
+        v1[9]=3;
+        v1[10]=2;
+        v1[11]=1;
+        assert.equal(v2[1], 16909060);
     });
 });

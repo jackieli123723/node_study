@@ -39,3 +39,27 @@ module.exports.min = function(arr){
 
     return Math.min( ...arr );
 };
+
+// 清空陣列
+module.exports.clear = function(arr){
+    arr.length = 0;
+};
+
+// 完整深層複製一份陣列
+module.exports.clone = function(a){
+    if (a.length === 1) return [a[0]];
+    else return Array.apply(null, a)
+};
+
+// 去除重複
+module.exports.unique = function(a){
+    let arr = [];
+    let obj = {};
+    for(let i = 0,c=a.length; i < c; ++i){
+        if(!obj[this[i]]){
+            arr.push(this[i]);
+            obj[this[i]] = 1;
+        }
+    }
+    return arr;
+};
