@@ -3,7 +3,7 @@ const
     request_debug = require('request-debug'),
     progress = require('request-progress'),
     http = require('http'),
-    downloadProgress = require('./index').downloadProgress,
+    {downloadProgress, getCrx} = require('./index'),
     fs = require('fs');
   
   // request_debug(request);
@@ -168,7 +168,7 @@ function request_with_proxy(){
             console.log( song.size);
         }
     });
-}
+    }
 
 function getResponseHeader(){
     request('https://www.google.com', (err, resp, body)=>{
@@ -177,7 +177,20 @@ function getResponseHeader(){
     });
 }
 
+function postArray(){
+    request.post({
+        url:'http://127.0.0.1',
+        formData: {
+            date: '2016/06/05',
+            item: ['索索索', '公公功']
+        }
+    }, (err, resp, body) => {
+        console.log(err, body);
+    });
+}
+
 function main(){
+    getCrx('https://chrome.google.com/webstore/detail/native-hls-playback/emnphkkblegpebimobpbekeedfgemhof');
     // httpGet();
     // formPost();
     // fileDownload();
@@ -188,8 +201,20 @@ function main(){
     // request_promise();
     // test_download_progress();
     // request_with_proxy();
-    getResponseHeader();
+    // getResponseHeader();
+    // request.
+    //request('https://docs.google.com/get_video_info?authuser=&docid=0B2aSmwcCEftMdmZfeWNVYTloTkk', (err, resp, body)=>{
+      //  console.log(decodeURIComponent(body).split('&'));
+//});
     
+    /*
+    var FileCookieStore = require('tough-cookie-filestore');
+    // NOTE - currently the 'cookies.json' file must already exist!
+    var j = request.jar(new FileCookieStore('cookies.json'));
+    request = request.defaults({ jar : j })
+    request('http://www.google.com', function() {
+      request('http://images.google.com')
+    })*/
 }
 
 if (require.main === module) {

@@ -7,12 +7,18 @@ const
     rp = require('request-promise');
 
 let USER_AGENT = 'Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 10.0; WOW64; Trident/7.0; .NET4.0C; .NET4.0E; .NET CLR 2.0.50727; .NET CLR 3.0.30729; .NET CLR 3.5.30729)';
-module.exports.putUserAgent=function(v){
+function putUserAgent(v){
     USER_AGENT = v;
 };
-module.exports.getUserAgent=function(){
+
+function getUserAgent(){
     return USER_AGENT;
-};
+}
+
+function debug(on){
+    request.debug = (on === true);
+    rp.debug = (on === true);
+}
 
 function httpGet(url, jq=true,encoding='utf-8'){
     
@@ -26,6 +32,12 @@ function httpGet(url, jq=true,encoding='utf-8'){
         encoding = url.encoding;
         jq = (url.jq === true);
         cfg = Object.assign({},cfg, url);
+        if(cfg.cookie){
+            let j = request.jar();
+            let cookie = request.cookie(cfg.cookie);
+            j.setCookie(cookie, cfg.url);
+            cfg.jar = j;
+        }
     }else{
         cfg.url = url.trim();
     }
@@ -40,15 +52,9 @@ function httpGet(url, jq=true,encoding='utf-8'){
             return cheerio.load(body, { decodeEntities: false });
         };
     }
-    //console.log(cfg);
+    // console.log(cfg);
     return rp(cfg);
 }
-/**
- *
- * @return Promise
- */
-module.exports.httpGet=httpGet;
-
 
 function downloadProgress(link, fn){
     return new Promise( (y,n)=>{
@@ -80,7 +86,6 @@ function downloadProgress(link, fn){
     });
 }
 
-module.exports.downloadProgress =downloadProgress;
 /**
  * code = 0 жие\
  */    
@@ -114,10 +119,9 @@ function checkFile(fn, url_cfg){
         });
     });
 }
-module.exports.checkFile =checkFile;
 
 
-module.exports.un53share = function(url){
+function un53share(url){
 
     return httpGet({
         url: url,
@@ -144,4 +148,36 @@ module.exports.un53share = function(url){
     }).catch( err => {
         return err.response.headers.location;
     });
+};
+
+// ?? chrome extension crx
+// "Give Me CRX"
+function getCrx(tab_url, fn='app.crx'){
+    let ext_name = tab_url.split('/detail/');
+    ext_name = ext_name[1].split('/');
+    ext_name = ext_name[0];
+		
+    let tab_url_split = tab_url.split("/");
+    tab_url = tab_url_split[6];
+    tab_url = tab_url.split('?');
+    tab_url = tab_url[0];
+		
+    let ccr = 'https://clients2.google.com/service/update2/crx?response=redirect&x=id%3D';
+    ccr += tab_url + '%26uc&prodversion=32';
+    //return ccr;
+    
+    return downloadProgress(ccr, fn);
+}
+
+module.exports = {
+    getCrx,
+    getUserAgent,
+    debug,
+    cheerio,
+    request,
+    checkFile,
+    un53share,
+    downloadProgress,
+    httpGet,
+    putUserAgent
 };
