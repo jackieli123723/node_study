@@ -3,7 +3,10 @@ const
     request_debug = require('request-debug'),
     progress = require('request-progress'),
     http = require('http'),
-    {downloadProgress, getCrx} = require('./index'),
+    {
+        downloadProgress, getCrx, queryBaiduPan, youdaoDict, httpGet,
+        youdaoTranslate
+    } = require('./index'),
     fs = require('fs');
   
   // request_debug(request);
@@ -13,22 +16,7 @@ const
 // http://stackoverflow.com/questions/19665863/how-do-i-use-a-self-signed-certificate-for-a-https-node-js-server
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 
-function httpGet(){
-    request({
-        'method' : 'get',
-        'url': 'https://api.ipify.org?format=json',
-        'headers': {
-            'User-Agent': 'Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 10.0; WOW64; Trident/7.0; .NET4.0C; .NET4.0E; .NET CLR 2.0.50727; .NET CLR 3.0.30729; .NET CLR 3.5.30729)'
-        }
-    }, (err, resp) => {
-        if(err){
-            console.log(err);
-            return;
-        }
-        let jd = JSON.parse(resp.body);
-        console.log(jd.ip);
-    });
-}
+
 
 function formPost(){
     let jar = request.jar();
@@ -190,7 +178,15 @@ function postArray(){
 }
 
 function main(){
-    getCrx('https://chrome.google.com/webstore/detail/native-hls-playback/emnphkkblegpebimobpbekeedfgemhof');
+    // queryBaiduPan('作业系统').then(console.log);
+    
+    // youdaoDict('air condition').then(console.log);
+    
+    // youdaoTranslate('很傻很天真')
+    youdaoTranslate('Too simple, sometimes naive')
+        .then( result => console.log(result['translateResult']) );
+    
+    // getCrx('https://chrome.google.com/webstore/detail/native-hls-playback/emnphkkblegpebimobpbekeedfgemhof');
     // httpGet();
     // formPost();
     // fileDownload();

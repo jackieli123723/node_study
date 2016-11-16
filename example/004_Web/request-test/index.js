@@ -150,8 +150,11 @@ function un53share(url){
     });
 };
 
-// ?? chrome extension crx
-// "Give Me CRX"
+/**
+ * 
+ * ?? chrome extension crx
+ * "Give Me CRX"
+ */
 function getCrx(tab_url, fn='app.crx'){
     let ext_name = tab_url.split('/detail/');
     ext_name = ext_name[1].split('/');
@@ -169,8 +172,111 @@ function getCrx(tab_url, fn='app.crx'){
     return downloadProgress(ccr, fn);
 }
 
+/**
+ * ??????
+ *
+ * @param keyword ???, ???????
+ * @param int pn ??
+ * @return Array [{title.content,unescapedUrl}]????
+ */
+function queryBaiduPan(keyword, pn=0){
+    // http://pan.baidu.com/wap/link?uk=2953827467&shareid=2765600776&third=0
+    const start = pn * 10;
+    return httpGet({
+        url: 'http://pan1234.com/server3',
+        qs: {
+            q: keyword,
+            start: start,
+            jsoncallback:'_____'
+        },
+        encoding: 'utf-8'
+    }).then( c => {
+        // let s = c.toString();
+        return (JSON.parse(c.replace('_____(', '{"result":').replace(")\r\n",'}')));
+        
+    });
+}
+
+function youdaoDict(word){
+    // ???????
+    return httpGet({
+        url: 'http://dict.youdao.com/search',
+        qs: {
+            q: word,
+            keyfrom: 'dict.index'
+        },
+        jq: true
+    }).then( $ => {
+        let results = [];
+        $('#results-contents > #phrsListTab > .trans-container li').each( (idx, el) => {
+            results.push($(el).text());
+        });
+        return results;
+    });
+}
+
+/**
+ * ????
+ *
+ * @return 
+ * {
+ *    type: ????,
+ *    errorCode: ????,
+ *    elapsedTime: ????,
+ *    translateResult: [  
+ *      [{
+ *        src: ????  
+ *        tgt: ????  
+ *      }]
+ *    ]
+ * }   
+ */
+function youdaoTranslate(c, type='AUTO'){
+    const VALID_TYPE = [
+        'AUTO', // ??????
+        'ZH_CN2EN', // ???>???
+        'ZH_CN2JA', // ???>???
+        'ZH_CN2KR', // ???>???
+        'ZH_CN2FR', // ???>???
+        'ZH_CN2RU', // ???>???
+        'ZH_CN2SP', // ???>???
+        'ZH_CN2PT', // ???>???
+        'EN2ZH_CN', // ???>???
+        'JA2ZH_CN', // ???>???
+        'KR2ZH_CN', // ???>???
+        'FR2ZH_CN', // ???>???
+        'RU2ZH_CN', // ???>???
+        'SP2ZH_CN', // ???>???
+        'PT2ZH_CN', // ???>???
+    ];
+    if(!VALID_TYPE.includes(type)){
+        type = 'AUTO';
+    }
+    return httpGet({
+            method: 'post',
+            url: 'http://fanyi.youdao.com/translate',
+            form: {
+                'type':type, 
+                'i':c,
+                'xmlVersion':'1.8',
+                'doctype':'json',
+                'keyfrom':'fanyi.web',
+                'ue':'UTF-8',
+                'action':'FY_BY_CLICKBUTTON',
+                'typoResult':'true'
+            },
+            qs: {
+                'smartresult':'dict',
+                'smartresult':'rule',
+                'smartresult':'ugc',
+                'sessionFrom':'dict2.top'
+            }
+        }).then(JSON.parse);
+}
+
 module.exports = {
     getCrx,
+    queryBaiduPan,
     getUserAgent,
     debug,
     cheerio,
@@ -179,5 +285,7 @@ module.exports = {
     un53share,
     downloadProgress,
     httpGet,
+    youdaoDict,
+    youdaoTranslate,
     putUserAgent
 };
