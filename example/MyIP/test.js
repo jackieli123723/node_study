@@ -9,7 +9,9 @@ function test(p){
 
 function main(){
     // test(api.ipify());
-    test(api.chinaz());
+    // test(api.chinaz());
+    // test(api.ipip());
+    test(api.taobao_getIpInfo('219.144.202.12'));
         
 }
 
