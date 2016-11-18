@@ -1,15 +1,18 @@
-const {wincmd} = require('./index');
+const ext = require('./index');
 
-const [evt, p] = wincmd(['dir']);
-p.catch( err => console.error);
+function dir(){
+    const [evt, p] = ext.wincmd(['dir']);
+    p.catch( err => console.error);
 
-evt
-    .on('stdout_data', data => {
-        console.log(data.toString());
-    })
-    .on('stderr_data', data => {
-        console.log(data.toString());
-    })
-    .on('exit', code => {
-        console.log(code);
-    });
+    evt
+        .on('stdout_data', data => {
+            console.log(data.toString());
+        })
+        .on('stderr_data', data => {
+            console.log(data.toString());
+        })
+        .on('exit', code => {
+            console.log(code);
+        });
+}
+ext.listWinWifiPassword().then(console.log);
