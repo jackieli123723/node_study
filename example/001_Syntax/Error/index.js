@@ -9,7 +9,7 @@ class AppError extends Error{
             message: 'unknown',
             info: null
         },cfg);
-        console.log(cfg);
+        // console.log(cfg);
         super(cfg.message);
         this.name = cfg.name;
         this.message = cfg.message; 
