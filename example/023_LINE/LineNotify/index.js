@@ -7,7 +7,6 @@ const
     querystring = require('querystring'),
     CALLBACK_URL = `http://localhost:${config.port}`;
 
-
 let USERS = {};
 function code2token(cfg){
     return request({
@@ -188,7 +187,5 @@ function startLineNotifyServer(cfg){
     app.listen(cfg.port);
     console.log(`listening on port ${cfg.port}`);
 }
-apiStatus({
-    token: 'jpCtoTxkRIJNhv0ruiV0hSFgT3TOZg8CxMibJDNEXo7'
-}).then(console.log);
-// startLineNotifyServer(config);
+
+startLineNotifyServer(config);
