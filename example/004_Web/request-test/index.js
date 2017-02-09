@@ -2,11 +2,36 @@ const
     progress = require('request-progress'),
     cheerio = require('cheerio'),
     request = require('request'),
-    GBK2UTF8 = require('..\\..\\iconv\\index').GBK2UTF8,
+    
+    // socks = require('socks'),
+    {Big52UTF8, GBK2UTF8} = require('..//..//iconv//index'),
     fs = require('fs'),
     rp = require('request-promise');
 
 let USER_AGENT = 'Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 10.0; WOW64; Trident/7.0; .NET4.0C; .NET4.0E; .NET CLR 2.0.50727; .NET CLR 3.0.30729; .NET CLR 3.5.30729)';
+
+/* helper function to create a SOCKS agent to be used in the request library
+ * */
+function createAgent (cfg) {
+  let proxy_setup = Object.assign({
+        ipaddress: 'localhost',
+        port: 9050,
+        type: 5
+    }, cfg.proxy);
+  
+  let isHttps = cfg.url.indexOf('https://') >= 0;
+
+  let socksAgent = new socks.Agent({
+      proxy: proxy_setup,
+    },
+    isHttps, // https
+    false // rejectUnauthorized option passed to tls.connect().
+  );
+
+  return socksAgent;
+}
+// -- from tor-request
+
 function putUserAgent(v){
     USER_AGENT = v;
 };
@@ -29,29 +54,60 @@ function httpGet(url, jq=true,encoding='utf-8'){
         }
     };
     if(typeof(url) == 'object'){
+
         encoding = url.encoding;
         jq = (url.jq === true);
         cfg = Object.assign({},cfg, url);
+        if(cfg.tor){
+            let isHttps = cfg.url.indexOf('https://') >= 0;
+            if(isHttps){
+                cfg.agentClass = require('socks5-https-client/lib/Agent');
+            }else{
+                cfg.agentClass = require('socks5-http-client/lib/Agent');
+            }
+            cfg.agentOptions = {
+                socksHost: cfg.tor.host,
+                socksPort: cfg.tor.port
+            };
+            // console.log(cfg);
+            cfg.tor = null;
+        }
         if(cfg.cookie){
             let j = request.jar();
             let cookie = request.cookie(cfg.cookie);
             j.setCookie(cookie, cfg.url);
             cfg.jar = j;
         }
+        
+        
     }else{
         cfg.url = url.trim();
     }
     if(encoding != 'utf-8'){
         cfg['encoding'] = null;
     }
-    if(jq===true){
-        cfg['transform'] = function (body) {
-            if(encoding == 'gb2312'){
-                body = GBK2UTF8(body);
-            }
-            return cheerio.load(body, { decodeEntities: false });
-        };
-    }
+    
+    
+    
+    cfg['transform'] = function (body, response, resolveWithFullResponse) {
+        if(encoding == 'big5'){
+            body = Big52UTF8(body);
+        
+        }else if(encoding == 'gb2312'){
+            body = GBK2UTF8(body);
+        }
+        if(jq===true){
+            body = cheerio.load(body, { decodeEntities: false });
+        }
+        
+        if(resolveWithFullResponse){
+            return {
+                body,
+                response
+            };
+        }
+        return body;
+    };
     // console.log(cfg);
     return rp(cfg);
 }
@@ -87,7 +143,7 @@ function downloadProgress(link, fn){
 }
 
 /**
- * code = 0 жие\
+ * code = 0 жие/
  */    
 function checkFile(fn, url_cfg){
     return new Promise( (y,n)=>{
@@ -192,13 +248,13 @@ function queryBaiduPan(keyword, pn=0){
         encoding: 'utf-8'
     }).then( c => {
         // let s = c.toString();
-        return (JSON.parse(c.replace('_____(', '{"result":').replace(")\r\n",'}')));
+        return (JSON.parse(c.replace('_____(', '{"result":').replace(")/r/n",'}')));
         
     });
 }
 
 function youdaoDict(word){
-    // ???????
+    // https://github.com/ChestnutHeng/Wudao-dict/blob/master/soup/parse_colins.py
     return httpGet({
         url: 'http://dict.youdao.com/search',
         qs: {
@@ -213,6 +269,46 @@ function youdaoDict(word){
         });
         return results;
     });
+}
+
+// https://github.com/talmobi/tor-request/blob/master/index.js
+// https://developer.github.com/v3/#authentication
+// https://developer.github.com/v3/#user-agent-required
+// https://developer.github.com/v3/gists/#create-a-gist
+function createGist(cfg){
+    // debug(true);
+    cfg = Object.assign({
+      "description": "the description for this gist",
+      "public": false,
+      "files": {
+        "file2.txt": {
+          "content": "String file contents"
+        }
+      }
+    }, cfg);
+    
+    let def_req = {
+        url: 'https://api.github.com/gists',
+        method: 'post',
+        timeout: 60000,
+        body: JSON.stringify({
+            description:cfg.description,
+            public: cfg.public,
+            files: cfg.files
+        })
+    };
+    
+    if(cfg.tor){
+        def_req.tor = cfg.tor;
+    }
+    if(cfg.auth){
+        def_req['headers'] = {
+            'User-Agent': 'Awesome-Octocat-App',
+            'Authorization' : "Basic " + new Buffer(cfg.auth.username + ":" + cfg.auth.password).toString("base64")
+        };
+    }
+    // console.log(cfg);
+    return httpGet(def_req).then( JSON.parse );
 }
 
 /**
@@ -274,6 +370,77 @@ function youdaoTranslate(c, type='AUTO'){
         }).then(JSON.parse);
 }
 
+/**
+ * ip ????
+ *
+ */
+function ipCipCC(){
+    return httpGet({
+        url:'http://cip.cc', 
+        jq:false,
+        encoding: 'utf-8',
+        headers: {
+            'User-Agent': 'curl/7.49.0'
+        }
+    });
+}
+
+function IpIpTk(cfg={}){
+    let url;
+    if(cfg.type == 'myip.geo'){ // ??? ip ?????
+        url = "https://ipip.tk/";
+    }else if(cfg.type == 'hostname.ip'){
+        url = `https://ipip.tk/${cfg.hostname}/ip`; // ? hostname ?ip
+    }else if(cfg.type == 'hostname.geo'){
+        url = `https://ipip.tk/${cfg.hostname}`; // ? hostname ?????
+    }else if(cfg.type == 'ip.geo'){
+        url = `https://ipip.tk/${cfg.ip}`; // ? ip ?????
+    }else{
+        url = "https://ipip.tk/ip";
+    }
+    // console.log(url);
+    return httpGet({
+        url:url, 
+        jq:false,
+        encoding: 'utf-8',
+        headers: {
+            'User-Agent': 'curl/7.49.0'
+        }
+    });
+}
+
+function feedRead(url){
+    const FeedParser = require('feedparser');
+    const events = require('events');
+    let evt = new events.EventEmitter();
+    let fp = new FeedParser();
+    fp.on('error', err=>{
+        evt.emit('error', err);
+    });
+    
+    fp.on('readable', ()=>{
+        while(item = fp.read()){
+            // console.log(item);
+            evt.emit('item', item);
+            
+            break;
+        }
+    });
+    let req = request(url);
+    req.once('error', err => {
+        evt.emit('error', err);
+    });
+    req.on('response', res => {
+        if(res.statusCode != 200){
+            evt.emit('error', new Error(`Code: ${res.statusCode}`));
+            return;
+        }
+        req.pipe(fp);
+    });
+    
+    
+    return evt;    
+}
 module.exports = {
     getCrx,
     queryBaiduPan,
@@ -287,5 +454,17 @@ module.exports = {
     httpGet,
     youdaoDict,
     youdaoTranslate,
-    putUserAgent
+    putUserAgent,
+    createGist,
+    feedRead,
+    IpIpTk: {
+        IpIpTkMyGeo: ()=>IpIpTk({type:'myip.geo'}),
+        IpIpTkGeoByIp: (ip)=>IpIpTk({type:'ip.geo', ip}),
+        IpIpTkGeoByHostname: (hostname)=>IpIpTk({type:'hostname.geo', hostname}),
+        IpIpTkIpByHostname: (hostname)=>IpIpTk({type:'hostname.ip', hostname})
+    },
+    ipQuery: {
+        ipCipCC,
+        IpIpTk: ()=>IpIpTk()
+    }
 };

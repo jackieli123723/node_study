@@ -12,9 +12,12 @@
     "co": "^4.6.0",
     "co-request": "^1.0.0",
     "extend": "^3.0.0",
+    "feedparser": "^2.1.0",
     "request": "^2.74.0",
     "request-progress": "^2.0.1",
     "request-promise": "^4.1.1",
+    "socks5-http-client": "^1.0.2",
+    "socks5-https-client": "^1.2.0",
     "tough-cookie-filestore": "0.0.1"
   },
   "main": "test.js",
