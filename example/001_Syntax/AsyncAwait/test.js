@@ -16,5 +16,14 @@ async function sleep3(){
     console.log(v2);
 }
 
+async function IsPromise(){
+    return "hello async";
+}
+async function ThrowError(){
+    throw new Error('async error');
+}
+    
 sleep3(3);
 console.log('#1');
+IsPromise().then(console.log);
+ThrowError().catch( err => console.error(err.message));
