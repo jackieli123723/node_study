@@ -27,7 +27,7 @@ function createAgent (cfg) {
     isHttps, // https
     false // rejectUnauthorized option passed to tls.connect().
   );
-
+  
   return socksAgent;
 }
 // -- from tor-request
@@ -441,6 +441,45 @@ function feedRead(url){
     
     return evt;    
 }
+
+function dnsQuery(hostname){
+    return httpGet({
+        url: 'https://dns.google.com/resolve',
+        qs: {
+            name: hostname
+        }
+    }).then( JSON.parse);
+}
+
+function generateChineseName(cfg={}){
+    cfg = Object.assign({
+        count: 100
+    }, cfg);
+    return httpGet({
+        url: 'http://www.richyli.com/name/index.asp',
+        form: {
+            'name_count':+cfg.count,
+            'break':4
+        },
+        jq: true,
+        encoding: 'big5'
+    }).then( $ => {
+        let html = $($('table tr:nth-of-type(3) > td:nth-of-type(1)')[0]).html();
+        let lines = [];
+        for(let line of html.split('<br>')){
+            if(!line.includes('times')){
+                continue;
+            }
+            let [name, pid] = line.split(',');
+            name = name.trim();
+            pid = / <span class="times">(.*)<\/span>/.exec(pid)[1];
+            lines.push({name,pid})
+        }
+        return lines;
+    });
+}
+
+
 module.exports = {
     getCrx,
     queryBaiduPan,
@@ -457,6 +496,7 @@ module.exports = {
     putUserAgent,
     createGist,
     feedRead,
+    generateChineseName,
     IpIpTk: {
         IpIpTkMyGeo: ()=>IpIpTk({type:'myip.geo'}),
         IpIpTkGeoByIp: (ip)=>IpIpTk({type:'ip.geo', ip}),
@@ -466,5 +506,6 @@ module.exports = {
     ipQuery: {
         ipCipCC,
         IpIpTk: ()=>IpIpTk()
-    }
+    },
+    dnsQuery
 };
