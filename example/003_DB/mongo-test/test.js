@@ -1,95 +1,7 @@
-const comongo = require('co-mongodb')
-    , co = require('co')
-    ,MongoClient = require('mongodb').MongoClient;
-
-class DB{
-    static factory(url){
-        return new Promise( (y,n)=>{
-            MongoClient.connect(url, (err, client) =>{
-                if(err){
-                    n(err);
-                }else{
-                    y( new DB(client) );
-                }
-            });
-        });
-    }
-    
-    constructor(client){
-        this.client = client;
-    }
-    
-    update(col_name, where, new_doc){
-        let col = this.client.collection(col_name);
-        return new Promise((y,n)=>{
-            col.updateOne(where, new_doc, (err, result)=>{
-                if(err){
-                    n(err);
-                }else{
-                    y(result);
-                }
-            });
-        });
-    }
-    
-    insertMany(col_name, doc){
-        let col = this.client.collection(col_name);
-        return new Promise((y,n)=>{
-            col.insertMany([ doc ], (err, result)=>{
-                if(err){
-                    n(err);
-                }else{
-                    y(result);
-                }
-            });
-        });
-    }
-    
-    deleteMany(col_name, where){
-        let col = this.client.collection(col_name);
-        return new Promise((y,n)=>{
-            col.deleteMany(where, (err, result)=>{
-                if(err){
-                    n(err);
-                }else{
-                    y(result);
-                }
-            });
-        });
-    }
-    
-    findMany(col_name, where){
-        let col = this.client.collection(col_name);
-        return new Promise((y,n)=>{
-            col.find(where, (err, result)=>{
-                if(err){
-                    n(err);
-                }else{
-                    y(result);
-                }
-            });
-        });
-    }
-    findOne(col_name, where){
-        let col = this.client.collection(col_name);
-        return new Promise((y,n)=>{
-            col.findOne(where, (err, result)=>{
-                if(err){
-                    n(err);
-                }else{
-                    y(result);
-                }
-            });
-        });
-    }
-    
-    close(){
-        this.client.close();
-    }
-}
 
 function test_with_co(){
-    
+    const co = require('co');
+    const comongo = require('co-mongodb');
     co(function *() {
       // ³s½u
       let db = yield comongo.client.connect('mongodb://localhost:27017/test');
@@ -114,6 +26,7 @@ function test_with_co(){
 }
 
 function test_with_promise(){
+    const DB = require('./index').DB;
     
     DB.factory('mongodb://localhost:27017/test')
         .then( (client) => {
@@ -140,12 +53,36 @@ function test_with_promise(){
         });
 }
 
-function main(){
-    test_with_co();
-    test_with_promise();
+function putBinary(){
+    const mgo = require('mongodb');
+    let bindata = mgo.Binary('binary data');
+    mgo.MongoClient.connect('mongodb://localhost:27017/test', function(err, db) {
+        db.collection('bdata').insertOne( {
+            data: bindata
+        }, (err, r)=>{
+        
+            db.close();
+        });
+        
+    });
+    
 }
 
-module.exports.DB =DB;
+function main(){
+    // test_with_co();
+    // test_with_promise();
+    
+    
+    // const DB = require('./index').DB;
+    
+    // DB.factory('mongodb://localhost:27017/test')
+        // .then( (client) => {
+           // client.insertMany('bdata', {
+                // "data" : bindata
+            // }); 
+        // });
+}
+
 if (require.main === module) {
     main();
 }
