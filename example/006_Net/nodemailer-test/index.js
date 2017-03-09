@@ -6,12 +6,12 @@ function sendMail(args){
         'smtp_server' : 'smtp.pchome.com.tw',
         'smtp_port' : 25,
         'smtp_secure' : false,
-        'smtp_uid' : 'test',
-        'smtp_pwd' : '1234',
+        // 'smtp_uid' : 'test',
+        // 'smtp_pwd' : '1234',
         'requireTLS' : false,
         'mail_is_html' : true,
         'mail_charset' : 'UTF-8',
-        'mail_sender' : 'test@example.com',
+        'mail_sender' : 'test@gmail.com',
         'mail_sender_name' : 'NoName',
         'mail_subject' : 'Untitle', //信的標題
         'mail_content' : 'hello world',  //發信主體內容4
